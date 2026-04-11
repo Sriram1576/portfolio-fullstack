@@ -1,0 +1,407 @@
+/* ============================================
+   ORIGINAL VIBRANT COLOR SCHEME
+   Cyan, Pink, Purple, Orange, Lime
+   ============================================ */
+
+:root {
+  --primary-dark: #050810;
+  --primary: #0a0e1a;
+  --secondary: #0f1623;
+  --cyan: #00f0ff;
+  --cyan-glow: rgba(0, 240, 255, 0.4);
+  --pink: #ff006e;
+  --pink-glow: rgba(255, 0, 110, 0.4);
+  --purple: #8338ec;
+  --purple-glow: rgba(131, 56, 236, 0.4);
+  --orange: #fb5607;
+  --orange-glow: rgba(251, 86, 7, 0.4);
+  --lime: #05ff00;
+  --lime-glow: rgba(5, 255, 0, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #8b92a8;
+  --text-muted: #4a5568;
+  --border: rgba(0, 240, 255, 0.2);
+  --accent: #00f0ff;
+  --accent-light: #05ff00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+  background: var(--primary-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* ============================================
+   6 ANIMATION EFFECTS
+   1. Hover Effect
+   2. Smooth Loader
+   3. 3D Motion
+   4. Entrance Reveal
+   5. Micro Interaction
+   6. Parallax Effect
+   ============================================ */
+
+/* 1. HOVER EFFECT */
+@keyframes hoverLift {
+  0% {
+    transform: translateY(0) rotateX(0deg);
+    box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1);
+  }
+  50% {
+    transform: translateY(-8px) rotateX(2deg);
+    box-shadow: 0 12px 30px rgba(0, 240, 255, 0.2);
+  }
+  100% {
+    transform: translateY(-8px) rotateX(0deg);
+    box-shadow: 0 12px 30px rgba(0, 240, 255, 0.2);
+  }
+}
+
+/* 2. SMOOTH LOADER */
+@keyframes smoothLoader {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes spinLoader {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+/* 3. 3D MOTION */
+@keyframes rotate3D {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: rotateX(10deg) rotateY(10deg) rotateZ(5deg);
+  }
+  50% {
+    transform: rotateX(0deg) rotateY(20deg) rotateZ(0deg);
+  }
+  75% {
+    transform: rotateX(-10deg) rotateY(10deg) rotateZ(-5deg);
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+}
+
+@keyframes float3D {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0px);
+  }
+  50% {
+    transform: translateY(-20px) translateZ(30px);
+  }
+}
+
+/* 4. ENTRANCE REVEAL */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px) skewX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0deg);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px) skewX(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0deg);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 5. MICRO INTERACTION */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 10px rgba(0, 240, 255, 0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(251, 86, 7, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 240, 255, 1), 0 0 30px rgba(251, 86, 7, 0.6);
+  }
+}
+
+/* 6. PARALLAX EFFECT */
+@keyframes parallaxShift {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(30px);
+  }
+}
+
+/* ============================================
+   APP STRUCTURE
+   ============================================ */
+
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.main-content {
+  margin-left: 80px;
+  position: relative;
+  z-index: 1;
+}
+
+main {
+  width: 100%;
+}
+
+/* ============================================
+   SMOOTH TRANSITIONS & EFFECTS
+   ============================================ */
+
+/* Interactive Elements - Hover Lift Effect */
+button, a, .card, .project-card, .skill-item {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+button:hover, a:hover, .card:hover, .project-card:hover, .skill-item:hover {
+  animation: hoverLift 0.6s ease-out forwards;
+}
+
+/* Entrance Animations */
+.section {
+  animation: slideInUp 0.8s ease-out;
+}
+
+.section-header {
+  animation: slideInDown 0.8s ease-out;
+}
+
+.section-content {
+  animation: slideInUp 0.8s ease-out 0.2s both;
+}
+
+/* Loader */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  animation: smoothLoader 2s ease-in-out infinite;
+  z-index: 9999;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--secondary);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: spinLoader 1s linear infinite;
+}
+
+/* 3D Effects */
+.card-3d {
+  perspective: 1000px;
+  animation: rotate3D 6s ease-in-out infinite;
+}
+
+.float-element {
+  animation: float3D 4s ease-in-out infinite;
+}
+
+/* Parallax Background */
+.parallax-bg {
+  will-change: transform;
+  animation: parallaxShift 20s ease-in-out infinite;
+}
+
+/* Micro Interactions */
+.pulse-element {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.glow-text {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    margin-top: 60px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 12px;
+  }
+
+  .app {
+    overflow-x: hidden;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.fade-in {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+.slide-in-up {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.stagger-delay-1 { animation-delay: 0.1s; }
+.stagger-delay-2 { animation-delay: 0.2s; }
+.stagger-delay-3 { animation-delay: 0.3s; }
+.stagger-delay-4 { animation-delay: 0.4s; }
+.stagger-delay-5 { animation-delay: 0.5s; }
+
+/* ============================================
+   VIBRANT GRADIENT OVERLAYS
+   ============================================ */
+
+.gradient-cyan-pink {
+  background: linear-gradient(135deg, var(--cyan), var(--pink));
+}
+
+.gradient-purple-orange {
+  background: linear-gradient(135deg, var(--purple), var(--orange));
+}
+
+.gradient-lime-cyan {
+  background: linear-gradient(135deg, var(--lime), var(--cyan));
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--cyan), var(--pink), var(--purple), var(--orange), var(--lime));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: glow 3s ease-in-out infinite;
+}
+
+
+

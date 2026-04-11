@@ -1,0 +1,54 @@
+.cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00f0ff;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.cursor.hover {
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 240, 255, 0.2);
+  border-color: #00f0ff;
+  mix-blend-mode: normal;
+}
+
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  background: #00f0ff;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px #00f0ff;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: #00f0ff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  filter: blur(2px);
+}
+
+@media (pointer: coarse) {
+  .cursor,
+  .cursor-dot,
+  .cursor-trail {
+    display: none;
+  }
+}
+
+
