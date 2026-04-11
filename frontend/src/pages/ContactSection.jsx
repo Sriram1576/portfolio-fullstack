@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { contactAPI } from '../services/api';
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xojpobop';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,19 @@ const ContactSection = () => {
 
     try {
       setStatus('loading');
-      await contactAPI.create(formData);
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Form submission failed');
+      }
+
       setStatus('success');
       setFormData({
         name: '',
