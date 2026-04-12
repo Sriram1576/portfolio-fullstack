@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Code2, Brain, Server, Sparkles } from 'lucide-react';
-import skills from '../data/skills';
+import { skillsAPI } from '../services/api';
 
 const SkillsSection = () => {
-  const orderedSkills = [...skills].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let alive = true;
+
+    const fetchSkills = async () => {
+      try {
+        setLoading(true);
+        const response = await skillsAPI.getAll();
+        if (alive) {
+          setSkills(response.data?.data || []);
+        }
+      } catch (error) {
+        if (alive) {
+          setSkills([]);
+        }
+      } finally {
+        if (alive) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchSkills();
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const iconForCategory = (category) => {
     if (category === 'Frontend') return <Code2 size={20} />;
@@ -22,7 +51,9 @@ const SkillsSection = () => {
         </div>
 
         <div className="skills-grid">
-          {orderedSkills.map((skill) => (
+          {loading && <p className="section-message">Loading skills...</p>}
+          {!loading && skills.length === 0 && <p className="section-message">Skills are temporarily unavailable.</p>}
+          {skills.map((skill) => (
             <article key={skill._id || skill.name} className="skill-tile hover-target">
               <div className="skill-icon">{iconForCategory(skill.category)}</div>
               <h3>{skill.name}</h3>
