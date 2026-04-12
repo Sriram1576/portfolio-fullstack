@@ -3,12 +3,14 @@ import { projectsAPI } from '../services/api';
 
 const ProjectsSection = () => {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let alive = true;
 
     const fetchProjects = async () => {
       try {
+        setLoading(true);
         const response = await projectsAPI.getAll();
         if (alive) {
           setProjects(response.data?.data || []);
@@ -16,6 +18,10 @@ const ProjectsSection = () => {
       } catch (error) {
         if (alive) {
           setProjects([]);
+        }
+      } finally {
+        if (alive) {
+          setLoading(false);
         }
       }
     };
@@ -37,6 +43,8 @@ const ProjectsSection = () => {
         </div>
 
         <div className="project-grid">
+          {loading && <p className="section-message">Loading projects...</p>}
+          {!loading && projects.length === 0 && <p className="section-message">Projects are temporarily unavailable.</p>}
           {projects.map((project) => (
             <article key={project._id || project.title} className="project-tile hover-target">
               <small>{project.category}</small>

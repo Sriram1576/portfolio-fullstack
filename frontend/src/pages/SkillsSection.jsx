@@ -4,12 +4,14 @@ import { skillsAPI } from '../services/api';
 
 const SkillsSection = () => {
   const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let alive = true;
 
     const fetchSkills = async () => {
       try {
+        setLoading(true);
         const response = await skillsAPI.getAll();
         if (alive) {
           setSkills(response.data?.data || []);
@@ -17,6 +19,10 @@ const SkillsSection = () => {
       } catch (error) {
         if (alive) {
           setSkills([]);
+        }
+      } finally {
+        if (alive) {
+          setLoading(false);
         }
       }
     };
@@ -45,6 +51,8 @@ const SkillsSection = () => {
         </div>
 
         <div className="skills-grid">
+          {loading && <p className="section-message">Loading skills...</p>}
+          {!loading && skills.length === 0 && <p className="section-message">Skills are temporarily unavailable.</p>}
           {skills.map((skill) => (
             <article key={skill._id || skill.name} className="skill-tile hover-target">
               <div className="skill-icon">{iconForCategory(skill.category)}</div>

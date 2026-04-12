@@ -1,14 +1,4 @@
 const Contact = require('../models/Contact');
-const nodemailer = require('nodemailer');
-
-// Email transporter configuration
-const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE || 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
 
 // Get all contacts (admin only)
 exports.getAllContacts = async (req, res) => {
@@ -93,49 +83,9 @@ exports.createContact = async (req, res) => {
 
     await contact.save();
 
-    // Send confirmation email to visitor
-    try {
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: `✅ Message Received - ${subject}`,
-        html: `
-          <h2>Thank you for reaching out, ${name}!</h2>
-          <p>I've received your message and will get back to you as soon as possible.</p>
-          <hr>
-          <p><strong>Your Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
-          <hr>
-          <p>Best regards,<br>Subham Sadangi</p>
-        `
-      });
-    } catch (emailError) {
-      console.error('Email sending failed:', emailError.message);
-    }
-
-    // Send notification email to admin
-    try {
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER,
-        subject: `🔔 New Portfolio Contact: ${subject}`,
-        html: `
-          <h2>New Contact Message</h2>
-          <p><strong>From:</strong> ${name} (${email})</p>
-          <p><strong>Subject:</strong> ${subject}</p>
-          <p><strong>IP Address:</strong> ${ipAddress}</p>
-          <hr>
-          <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
-        `
-      });
-    } catch (emailError) {
-      console.error('Admin email sending failed:', emailError.message);
-    }
-
     res.status(201).json({
       success: true,
-      message: 'Message sent successfully! I will get back to you soon.',
+      message: 'Message received successfully.',
       data: contact
     });
   } catch (error) {

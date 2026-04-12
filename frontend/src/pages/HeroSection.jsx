@@ -82,7 +82,12 @@ const HeroSection = () => {
             <button className="btn btn-secondary hover-target" onClick={() => scrollToSection('contact')}>
               Contact me
             </button>
-            <a className="resume-link hover-target" href="#contact">
+            <a
+              className="resume-link hover-target"
+              href="/resume.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
               <Download size={16} /> Resume
             </a>
           </div>

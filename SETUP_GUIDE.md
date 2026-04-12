@@ -4,7 +4,6 @@
 - ✅ Node.js installed
 - ✅ npm/yarn installed
 - ⏳ MongoDB Atlas account (or local MongoDB)
-- ⏳ Gmail account with App Password
 
 ---
 
@@ -46,34 +45,7 @@ MONGODB_URI=mongodb+srv://subham:MyPassword123@cluster0.abcde.mongodb.net/portfo
 
 ---
 
-## Step 2: Set Up Gmail App Password
-
-### 2.1 Enable 2-Factor Authentication
-1. Go to https://myaccount.google.com/security
-2. Click "2-Step Verification"
-3. Follow the steps
-
-### 2.2 Create App Password
-1. Go to https://myaccount.google.com/apppasswords
-2. Select "Mail" and "Windows Computer"
-3. Click "Generate"
-4. Copy the 16-character password
-
-### 2.3 Update Backend .env
-```
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=xxxx xxxx xxxx xxxx
-```
-
-**Example:**
-```
-EMAIL_USER=subhamsadangi1576@gmail.com
-EMAIL_PASS=abcd efgh ijkl mnop
-```
-
----
-
-## Step 3: Frontend Setup
+## Step 2: Frontend Setup
 
 ### 3.1 Create .env file
 Create `frontend/.env`:
@@ -89,26 +61,24 @@ npm install
 
 ---
 
-## Step 4: Backend Setup
+## Step 3: Backend Setup
 
-### 4.1 Install Dependencies
+### 3.1 Install Dependencies
 ```bash
 cd backend
 npm install
 ```
 
-### 4.2 Verify .env file
+### 3.2 Verify .env file
 Check `backend/.env` has all required fields:
 - MONGODB_URI
 - PORT
 - JWT_SECRET
-- EMAIL_USER
-- EMAIL_PASS
 - FRONTEND_URL
 
 ---
 
-## Step 5: Run the Application
+## Step 4: Run the Application
 
 ### Terminal 1 - Start Backend
 ```bash
@@ -139,9 +109,9 @@ You can now view portfolio-frontend in the browser.
 
 ---
 
-## Step 6: Test the Application
+## Step 5: Test the Application
 
-### 6.1 Test Backend API
+### 5.1 Test Backend API
 Open in browser: `http://localhost:5000/api/health`
 
 Expected response:
@@ -153,22 +123,22 @@ Expected response:
 }
 ```
 
-### 6.2 Test Frontend
+### 5.2 Test Frontend
 Open in browser: `http://localhost:3000`
 
 You should see your portfolio loading with animations!
 
-### 6.3 Test Contact Form
+### 5.3 Test Contact Form
 1. Scroll to Contact section
 2. Fill in the form
 3. Submit
-4. Check your email for confirmation
+4. Verify you receive the Formspree submission email
 
 ---
 
-## Step 7: Adding Content to Database
+## Step 6: Adding Content to Database
 
-### 7.1 Add Projects via API
+### 6.1 Add Projects via API
 ```bash
 curl -X POST http://localhost:5000/api/projects \
   -H "Content-Type: application/json" \
@@ -182,7 +152,7 @@ curl -X POST http://localhost:5000/api/projects \
   }'
 ```
 
-### 7.2 Add Skills via API
+### 6.2 Add Skills via API
 ```bash
 curl -X POST http://localhost:5000/api/skills \
   -H "Content-Type: application/json" \
@@ -194,7 +164,7 @@ curl -X POST http://localhost:5000/api/skills \
   }'
 ```
 
-### 7.3 Add Experience via API
+### 6.3 Add Experience via API
 ```bash
 curl -X POST http://localhost:5000/api/experience \
   -H "Content-Type: application/json" \
@@ -218,12 +188,6 @@ curl -X POST http://localhost:5000/api/experience \
 - Make sure IP is whitelisted in MongoDB Atlas
 - In Atlas, go to Security → Network Access
 - Click "Add IP Address" → "Allow Access from Anywhere"
-
-### Problem: Email not sending
-**Solution:**
-- Verify Gmail 2-FA is enabled
-- Check App Password is correct (16 chars)
-- Allow "Less secure apps" if needed
 
 ### Problem: Frontend not connecting to backend
 **Solution:**
@@ -254,8 +218,6 @@ MONGODB_URI=mongodb+srv://...
 PORT=5000
 NODE_ENV=development
 JWT_SECRET=your_secret_key
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
 FRONTEND_URL=http://localhost:3000
 MAX_FILE_SIZE=5242880
 ```

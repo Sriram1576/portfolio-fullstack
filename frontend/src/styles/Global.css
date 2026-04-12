@@ -644,6 +644,17 @@ p {
   max-width: 64ch;
 }
 
+.section-message {
+  grid-column: 1 / -1;
+  margin: 4px 0 8px;
+  padding: 10px 12px;
+  border: 1px solid rgba(104, 182, 255, 0.24);
+  border-radius: 10px;
+  background: rgba(9, 20, 36, 0.72);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

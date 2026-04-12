@@ -86,8 +86,6 @@ portfolio-fullstack/
    PORT=5000
    NODE_ENV=development
    JWT_SECRET=your_secret_key
-   EMAIL_USER=your_email@gmail.com
-   EMAIL_PASS=your_app_password
    FRONTEND_URL=http://localhost:3000
    ```
 
@@ -175,7 +173,6 @@ The application will open at `http://localhost:3000`
 ### Backend
 - 🗄️ **MongoDB Integration** - NoSQL database with Mongoose ODM
 - 🔐 **CORS Configuration** - Cross-origin request handling
-- 📧 **Email Notifications** - Automated emails via Nodemailer
 - ✅ **Data Validation** - Input validation and sanitization
 - 🎯 **RESTful API** - Clean and organized API structure
 - 📍 **Error Handling** - Comprehensive error management
@@ -186,7 +183,6 @@ The application will open at `http://localhost:3000`
 - **Express.js** - Web framework
 - **MongoDB** - Database
 - **Mongoose** - ODM
-- **Nodemailer** - Email service
 - **bcryptjs** - Password hashing
 - **jsonwebtoken** - JWT authentication
 - **cors** - CORS middleware
@@ -266,7 +262,6 @@ The application will open at `http://localhost:3000`
 - MongoDB injection prevention
 - XSS protection
 - Rate limiting ready
-- Email verification
 
 ## 📦 Deployment
 

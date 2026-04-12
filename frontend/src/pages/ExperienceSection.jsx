@@ -5,12 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const ExperienceSection = () => {
   const [experiences, setExperiences] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let alive = true;
 
     const fetchExperience = async () => {
       try {
+        setLoading(true);
         const response = await experienceAPI.getAll();
         if (alive) {
           setExperiences(response.data?.data || []);
@@ -18,6 +20,10 @@ const ExperienceSection = () => {
       } catch (error) {
         if (alive) {
           setExperiences([]);
+        }
+      } finally {
+        if (alive) {
+          setLoading(false);
         }
       }
     };
@@ -84,6 +90,8 @@ const ExperienceSection = () => {
         </div>
 
         <div className="timeline-wrap exp-timeline">
+          {loading && <p className="section-message">Loading experience...</p>}
+          {!loading && experiences.length === 0 && <p className="section-message">Experience is temporarily unavailable.</p>}
           {experiences.map((exp) => (
             <article key={exp._id || exp.title} className="timeline-entry exp-card">
               <h3>{String(exp.title || '').replaceAll('_', ' ')}</h3>
