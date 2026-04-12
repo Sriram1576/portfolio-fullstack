@@ -1,39 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { experienceAPI } from '../services/api';
+import React, { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import experience from '../data/experience';
 
 const ExperienceSection = () => {
-  const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let alive = true;
-
-    const fetchExperience = async () => {
-      try {
-        setLoading(true);
-        const response = await experienceAPI.getAll();
-        if (alive) {
-          setExperiences(response.data?.data || []);
-        }
-      } catch (error) {
-        if (alive) {
-          setExperiences([]);
-        }
-      } finally {
-        if (alive) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchExperience();
-
-    return () => {
-      alive = false;
-    };
-  }, []);
+  const experiences = [...experience].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
 
   useEffect(() => {
     if (!experiences.length) return undefined;
@@ -90,11 +61,9 @@ const ExperienceSection = () => {
         </div>
 
         <div className="timeline-wrap exp-timeline">
-          {loading && <p className="section-message">Loading experience...</p>}
-          {!loading && experiences.length === 0 && <p className="section-message">Experience is temporarily unavailable.</p>}
           {experiences.map((exp) => (
-            <article key={exp._id || exp.title} className="timeline-entry exp-card">
-              <h3>{String(exp.title || '').replaceAll('_', ' ')}</h3>
+            <article key={exp.id || exp.title} className="timeline-entry exp-card">
+              <h3>{exp.title}</h3>
               <h4>{exp.company}</h4>
               <p>{exp.description}</p>
               <div className="exp-tags">
