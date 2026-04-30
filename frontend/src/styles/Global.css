@@ -347,6 +347,22 @@ p {
   gap: 10px;
 }
 
+@media (max-width: 768px) {
+  .nav-shell {
+    min-height: 70px;
+    gap: 12px;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .social-links a {
+    width: 34px;
+    height: 34px;
+  }
+}
+
 .social-links a {
   position: relative;
   width: 36px;
@@ -1070,6 +1086,7 @@ p {
 @media (max-width: 1024px) {
   .hero-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   .project-grid,
@@ -1094,10 +1111,45 @@ p {
 
   .hero {
     padding-top: 60px;
+    padding-bottom: 64px;
   }
 
   .section-block {
     padding: 70px 0;
+  }
+
+  .hero-grid {
+    gap: 20px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .hero-copy p {
+    font-size: 0.98rem;
+  }
+
+  .hero-cta {
+    gap: 10px;
+  }
+
+  .hero-cta .btn,
+  .hero-cta .resume-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-card {
+    padding: 22px;
+  }
+
+  .hero-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .hero-card ul {
+    gap: 10px;
   }
 
   .stats-grid,
@@ -1105,10 +1157,6 @@ p {
   .skills-grid,
   .contact-meta {
     grid-template-columns: 1fr;
-  }
-
-  .hero-copy h1 {
-    font-size: clamp(2rem, 9vw, 3rem);
   }
 
   .exp-timeline::before {
@@ -1132,6 +1180,33 @@ p {
   .cursor-dot,
   .cursor-trail {
     display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .hero {
+    padding-top: 52px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+
+  .project-grid,
+  .skills-grid,
+  .timeline-wrap {
+    gap: 12px;
+  }
+
+  .project-tile,
+  .skill-tile,
+  .timeline-entry,
+  .exp-card {
+    padding: 18px;
+  }
+
+  .contact-form {
+    padding: 18px;
   }
 }
 
