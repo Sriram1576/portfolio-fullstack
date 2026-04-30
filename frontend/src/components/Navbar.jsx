@@ -8,7 +8,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="top-nav-wrap">
+    <header className="top-nav-wrap nav-glass">
       <div className="container nav-shell">
         <a className="brand" href="#hero" onClick={() => scrollToSection('hero')}>Subham Sadangi</a>
 
