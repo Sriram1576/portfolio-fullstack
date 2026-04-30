@@ -25,9 +25,15 @@ const SkillsSection = ({ skills = skillsData }) => {
           {orderedSkills.map((skill) => (
             <article key={skill.id || skill.name} className="skill-tile hover-target">
               <div className="skill-icon">{iconForCategory(skill.category)}</div>
-              <h3>{skill.name}</h3>
+              <div className="skill-head">
+                <h3>{skill.name}</h3>
+                <span className="skill-pill">{skill.category}</span>
+              </div>
+              <div className="skill-meter">
+                <span style={{ width: `${skill.proficiency}%` }} />
+              </div>
               <p>
-                {skill.category} · {skill.proficiency}% proficiency · {skill.yearsOfExperience} years
+                {skill.proficiency}% proficiency · {skill.yearsOfExperience} years
               </p>
             </article>
           ))}

@@ -24,6 +24,10 @@ const ProjectsSection = ({ projects = projectsData }) => {
                   <span key={tag}>{tag}</span>
                 ))}
               </div>
+              <div className="project-foot">
+                <span className="project-chip">Case study</span>
+                <span className="project-cta">View details</span>
+              </div>
             </article>
           ))}
         </div>

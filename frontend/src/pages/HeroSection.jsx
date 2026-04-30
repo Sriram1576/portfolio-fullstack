@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ArrowUpRight, Download } from 'lucide-react';
+import { ArrowUpRight, Download, Briefcase, MapPin, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
 
 const HeroSection = () => {
@@ -68,6 +68,11 @@ const HeroSection = () => {
       <div className="container hero-grid">
         <div className="hero-copy reveal-block depth-shift" data-depth="10">
           <p className="eyebrow hero-animate">Full-Stack Developer • Data Science & AI/ML Student</p>
+          <div className="hero-badges hero-animate">
+            <span className="hero-chip"><Sparkles size={14} /> Open for internships</span>
+            <span className="hero-chip"><Briefcase size={14} /> Freelance projects</span>
+            <span className="hero-chip"><MapPin size={14} /> Odisha, India</span>
+          </div>
           <h1 className="hero-animate">
             <span>Building</span> <span>immersive digital</span> <span>experiences</span>
           </h1>
