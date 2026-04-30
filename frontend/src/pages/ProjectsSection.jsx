@@ -1,6 +1,8 @@
 import React from 'react';
+import projectsData from '../data/projects';
 
-const ProjectsSection = ({ projects = [], loading = false }) => {
+const ProjectsSection = ({ projects = projectsData }) => {
+  const orderedProjects = [...projects].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
 
   return (
     <section id="projects" className="section-block reveal-block depth-shift" data-depth="8">
@@ -12,12 +14,10 @@ const ProjectsSection = ({ projects = [], loading = false }) => {
         </div>
 
         <div className="project-grid">
-          {loading && <p className="section-message">Loading projects...</p>}
-          {!loading && projects.length === 0 && <p className="section-message">Projects are temporarily unavailable.</p>}
-          {projects.map((project) => (
-            <article key={project._id || project.title} className="project-tile hover-target">
+          {orderedProjects.map((project) => (
+            <article key={project.id || project.title} className="project-tile hover-target">
               <small>{project.category}</small>
-              <h3>{String(project.title || '').replaceAll('_', ' ')}</h3>
+              <h3>{project.title}</h3>
               <p>{project.description}</p>
               <div>
                 {(project.technologies || []).map((tag) => (

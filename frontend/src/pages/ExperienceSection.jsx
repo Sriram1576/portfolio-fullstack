@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import experienceData from '../data/experience';
 
-const ExperienceSection = ({ experiences = [], loading = false }) => {
+const ExperienceSection = ({ experiences = experienceData }) => {
+  const orderedExperiences = [...experiences].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
 
   useEffect(() => {
-    if (!experiences.length) return undefined;
+    if (!orderedExperiences.length) return undefined;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -47,7 +49,7 @@ const ExperienceSection = ({ experiences = [], loading = false }) => {
         .filter((t) => cards.includes(t.trigger))
         .forEach((t) => t.kill());
     };
-  }, [experiences]);
+  }, [orderedExperiences]);
 
   return (
     <section id="experience" className="section-block depth-shift" data-depth="8">
@@ -59,11 +61,9 @@ const ExperienceSection = ({ experiences = [], loading = false }) => {
         </div>
 
         <div className="timeline-wrap exp-timeline">
-          {loading && <p className="section-message">Loading experience...</p>}
-          {!loading && experiences.length === 0 && <p className="section-message">Experience is temporarily unavailable.</p>}
-          {experiences.map((exp) => (
-            <article key={exp._id || exp.title} className="timeline-entry exp-card">
-              <h3>{String(exp.title || '').replaceAll('_', ' ')}</h3>
+          {orderedExperiences.map((exp) => (
+            <article key={exp.id || exp.title} className="timeline-entry exp-card">
+              <h3>{exp.title}</h3>
               <h4>{exp.company}</h4>
               <p>{exp.description}</p>
               <div className="exp-tags">

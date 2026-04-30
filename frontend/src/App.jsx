@@ -14,16 +14,17 @@ import SkillsSection from './pages/SkillsSection';
 import ExperienceSection from './pages/ExperienceSection';
 import ContactSection from './pages/ContactSection';
 import Footer from './components/Footer';
-import { contentAPI } from './services/api';
+import projects from './data/projects';
+import skills from './data/skills';
+import experience from './data/experience';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [contentLoading, setContentLoading] = useState(true);
-  const [homeContent, setHomeContent] = useState({
-    projects: [],
-    skills: [],
-    experience: []
-  });
+  const homeContent = {
+    projects,
+    skills,
+    experience
+  };
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -38,52 +39,6 @@ function App() {
     }, 2600);
 
     return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    let alive = true;
-
-    const fetchHomeContent = async () => {
-      const requestStart = performance.now();
-
-      try {
-        setContentLoading(true);
-        const response = await contentAPI.getHome();
-        const data = response.data?.data || {};
-
-        if (alive) {
-          setHomeContent({
-            projects: data.projects || [],
-            skills: data.skills || [],
-            experience: data.experience || []
-          });
-        }
-
-        if (process.env.NODE_ENV !== 'production') {
-          const durationMs = Number((performance.now() - requestStart).toFixed(2));
-          // Request timing helps compare latency before/after optimization.
-          console.info('[home-content] load ms:', durationMs, 'cache:', response.data?.meta?.cache);
-        }
-      } catch (error) {
-        if (alive) {
-          setHomeContent({
-            projects: [],
-            skills: [],
-            experience: []
-          });
-        }
-      } finally {
-        if (alive) {
-          setContentLoading(false);
-        }
-      }
-    };
-
-    fetchHomeContent();
-
-    return () => {
-      alive = false;
-    };
   }, []);
 
   useEffect(() => {
@@ -186,9 +141,9 @@ function App() {
       <main className="experience-main">
         <HeroSection />
         <StatsSection />
-        <ProjectsSection projects={homeContent.projects} loading={contentLoading} />
-        <SkillsSection skills={homeContent.skills} loading={contentLoading} />
-        <ExperienceSection experiences={homeContent.experience} loading={contentLoading} />
+        <ProjectsSection projects={homeContent.projects} />
+        <SkillsSection skills={homeContent.skills} />
+        <ExperienceSection experiences={homeContent.experience} />
         <ContactSection />
       </main>
       <Footer />

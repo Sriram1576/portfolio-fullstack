@@ -1,7 +1,9 @@
 import React from 'react';
 import { Code2, Brain, Server, Sparkles } from 'lucide-react';
+import skillsData from '../data/skills';
 
-const SkillsSection = ({ skills = [], loading = false }) => {
+const SkillsSection = ({ skills = skillsData }) => {
+  const orderedSkills = [...skills].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
 
   const iconForCategory = (category) => {
     if (category === 'Frontend') return <Code2 size={20} />;
@@ -20,10 +22,8 @@ const SkillsSection = ({ skills = [], loading = false }) => {
         </div>
 
         <div className="skills-grid">
-          {loading && <p className="section-message">Loading skills...</p>}
-          {!loading && skills.length === 0 && <p className="section-message">Skills are temporarily unavailable.</p>}
-          {skills.map((skill) => (
-            <article key={skill._id || skill.name} className="skill-tile hover-target">
+          {orderedSkills.map((skill) => (
+            <article key={skill.id || skill.name} className="skill-tile hover-target">
               <div className="skill-icon">{iconForCategory(skill.category)}</div>
               <h3>{skill.name}</h3>
               <p>

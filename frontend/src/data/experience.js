@@ -1,0 +1,44 @@
+const experience = [
+  {
+    id: 'major-ai-ml-iit-ropar',
+    title: 'Major in AI/ML',
+    company: 'IIT Ropar',
+    description: 'Pursuing an AI/ML major training track focused on model development, evaluation, and practical machine learning implementation.',
+    technologies: ['AI', 'Machine Learning', 'Model Evaluation', 'Deep Learning Basics'],
+    orderIndex: 0,
+  },
+  {
+    id: 'btech-data-science-giet',
+    title: 'B.Tech in Data Science',
+    company: 'GIET University',
+    description: 'Pursuing B.Tech in Data Science since 2024 with a focus on statistics, machine learning foundations, and applied analytics.',
+    technologies: ['Data Science', 'Statistics', 'Python', 'Machine Learning'],
+    orderIndex: 0,
+  },
+  {
+    id: 'mern-full-stack-iit-ropar',
+    title: 'MERN Full Stack',
+    company: 'IIT Ropar',
+    description: 'Completed intensive full-stack training covering MongoDB, Express.js, React, and Node.js to build scalable web applications.',
+    technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
+    orderIndex: 1,
+  },
+  {
+    id: 'stock-market-analyst',
+    title: 'Stock Market Analyst',
+    company: 'Launched Global',
+    description: 'Worked on equity research and market trend analysis using technical indicators on real market data. SEBI certified.',
+    technologies: ['Technical Analysis', 'Financial Data'],
+    orderIndex: 2,
+  },
+  {
+    id: 'rpa-developer-associate',
+    title: 'RPA Developer Associate',
+    company: 'EduSkill (UiPath)',
+    description: 'Completed hands-on RPA training with UiPath Studio and built automated workflows for business process optimization.',
+    technologies: ['UiPath', 'Automation', 'Business Process'],
+    orderIndex: 3,
+  },
+];
+
+export default experience;
