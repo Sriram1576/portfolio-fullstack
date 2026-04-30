@@ -1,37 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { projectsAPI } from '../services/api';
+import React from 'react';
 
-const ProjectsSection = () => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let alive = true;
-
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const response = await projectsAPI.getAll();
-        if (alive) {
-          setProjects(response.data?.data || []);
-        }
-      } catch (error) {
-        if (alive) {
-          setProjects([]);
-        }
-      } finally {
-        if (alive) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchProjects();
-
-    return () => {
-      alive = false;
-    };
-  }, []);
+const ProjectsSection = ({ projects = [], loading = false }) => {
 
   return (
     <section id="projects" className="section-block reveal-block depth-shift" data-depth="8">

@@ -7,10 +7,11 @@ const fallbackApi = isLocal
   : 'https://api.subhamsadangi.dpdns.org/api';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || fallbackApi;
+const REQUEST_TIMEOUT_MS = Number(process.env.REACT_APP_API_TIMEOUT_MS || 8000);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 20000,
+  timeout: REQUEST_TIMEOUT_MS,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,7 +25,7 @@ const isRetryableError = (error) => {
   return error.response.status >= 500;
 };
 
-const withRetry = async (requestFn, retries = 2, retryDelayMs = 1200) => {
+const withRetry = async (requestFn, retries = 1, retryDelayMs = 600) => {
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt += 1) {
     try {
@@ -66,6 +67,11 @@ export const experienceAPI = {
   create: (data) => api.post('/experience', data),
   update: (id, data) => api.put(`/experience/${id}`, data),
   delete: (id) => api.delete(`/experience/${id}`),
+};
+
+// Aggregated Home Content API
+export const contentAPI = {
+  getHome: () => withRetry(() => api.get('/content/home'), 1, 500),
 };
 
 // Contact API

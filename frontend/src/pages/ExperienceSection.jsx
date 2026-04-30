@@ -1,39 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { experienceAPI } from '../services/api';
+import React, { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const ExperienceSection = () => {
-  const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let alive = true;
-
-    const fetchExperience = async () => {
-      try {
-        setLoading(true);
-        const response = await experienceAPI.getAll();
-        if (alive) {
-          setExperiences(response.data?.data || []);
-        }
-      } catch (error) {
-        if (alive) {
-          setExperiences([]);
-        }
-      } finally {
-        if (alive) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchExperience();
-
-    return () => {
-      alive = false;
-    };
-  }, []);
+const ExperienceSection = ({ experiences = [], loading = false }) => {
 
   useEffect(() => {
     if (!experiences.length) return undefined;

@@ -147,6 +147,9 @@ The application will open at `http://localhost:3000`
 - `PUT /api/experience/:id` - Update experience
 - `DELETE /api/experience/:id` - Delete experience
 
+### Home Content (Optimized)
+- `GET /api/content/home` - Get aggregated projects + skills + experience payload (cached)
+
 ### Contact
 - `GET /api/contact` - Get all contacts (paginated)
 - `GET /api/contact/stats/summary` - Get contact statistics

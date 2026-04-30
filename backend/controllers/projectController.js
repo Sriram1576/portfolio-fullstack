@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const { invalidateHomeContentCache } = require('../utils/contentCache');
 
 // Get all projects
 exports.getAllProjects = async (req, res) => {
@@ -54,6 +55,7 @@ exports.createProject = async (req, res) => {
   try {
     const project = new Project(req.body);
     await project.save();
+    invalidateHomeContentCache();
 
     res.status(201).json({
       success: true,
@@ -83,6 +85,7 @@ exports.updateProject = async (req, res) => {
         message: 'Project not found'
       });
     }
+    invalidateHomeContentCache();
 
     res.status(200).json({
       success: true,
@@ -108,6 +111,7 @@ exports.deleteProject = async (req, res) => {
         message: 'Project not found'
       });
     }
+    invalidateHomeContentCache();
 
     res.status(200).json({
       success: true,

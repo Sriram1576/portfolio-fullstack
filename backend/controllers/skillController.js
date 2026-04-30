@@ -1,4 +1,5 @@
 const Skill = require('../models/Skill');
+const { invalidateHomeContentCache } = require('../utils/contentCache');
 
 // Get all skills
 exports.getAllSkills = async (req, res) => {
@@ -78,6 +79,7 @@ exports.createSkill = async (req, res) => {
   try {
     const skill = new Skill(req.body);
     await skill.save();
+    invalidateHomeContentCache();
 
     res.status(201).json({
       success: true,
@@ -107,6 +109,7 @@ exports.updateSkill = async (req, res) => {
         message: 'Skill not found'
       });
     }
+    invalidateHomeContentCache();
 
     res.status(200).json({
       success: true,
@@ -132,6 +135,7 @@ exports.deleteSkill = async (req, res) => {
         message: 'Skill not found'
       });
     }
+    invalidateHomeContentCache();
 
     res.status(200).json({
       success: true,

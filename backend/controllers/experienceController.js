@@ -1,4 +1,5 @@
 const Experience = require('../models/Experience');
+const { invalidateHomeContentCache } = require('../utils/contentCache');
 
 // Get all experiences
 exports.getAllExperience = async (req, res) => {
@@ -52,6 +53,7 @@ exports.createExperience = async (req, res) => {
   try {
     const experience = new Experience(req.body);
     await experience.save();
+    invalidateHomeContentCache();
 
     res.status(201).json({
       success: true,
@@ -81,6 +83,7 @@ exports.updateExperience = async (req, res) => {
         message: 'Experience not found'
       });
     }
+    invalidateHomeContentCache();
 
     res.status(200).json({
       success: true,
@@ -106,6 +109,7 @@ exports.deleteExperience = async (req, res) => {
         message: 'Experience not found'
       });
     }
+    invalidateHomeContentCache();
 
     res.status(200).json({
       success: true,

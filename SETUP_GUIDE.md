@@ -182,6 +182,12 @@ curl -X POST http://localhost:5000/api/experience \
 
 ## Troubleshooting
 
+### Problem: Skills/Projects/Experience load slowly in production (Render)
+**Solution:**
+- Use the aggregated endpoint: `GET /api/content/home`
+- Configure a keep-warm monitor to ping `https://api.subhamsadangi.dpdns.org/api/health` every 5-10 minutes
+- Set `HOME_CONTENT_CACHE_TTL_MS` in backend environment (example: `300000` for 5 min)
+
 ### Problem: Cannot connect to MongoDB
 **Solution:**
 - Check your MONGODB_URI is correct

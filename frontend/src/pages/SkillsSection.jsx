@@ -1,38 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Code2, Brain, Server, Sparkles } from 'lucide-react';
-import { skillsAPI } from '../services/api';
 
-const SkillsSection = () => {
-  const [skills, setSkills] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let alive = true;
-
-    const fetchSkills = async () => {
-      try {
-        setLoading(true);
-        const response = await skillsAPI.getAll();
-        if (alive) {
-          setSkills(response.data?.data || []);
-        }
-      } catch (error) {
-        if (alive) {
-          setSkills([]);
-        }
-      } finally {
-        if (alive) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchSkills();
-
-    return () => {
-      alive = false;
-    };
-  }, []);
+const SkillsSection = ({ skills = [], loading = false }) => {
 
   const iconForCategory = (category) => {
     if (category === 'Frontend') return <Code2 size={20} />;

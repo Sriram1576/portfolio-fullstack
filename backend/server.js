@@ -48,6 +48,7 @@ const skillRoutes = require('./routes/skills');
 const experienceRoutes = require('./routes/experience');
 const contactRoutes = require('./routes/contact');
 const statsRoutes = require('./routes/stats');
+const contentRoutes = require('./routes/content');
 
 // Mount Routes
 app.use('/api/projects', projectRoutes);
@@ -55,6 +56,7 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/experience', experienceRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/content', contentRoutes);
 
 // Health Check Route
 app.get('/api/health', (req, res) => {
