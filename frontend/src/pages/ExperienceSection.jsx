@@ -1,79 +1,36 @@
-import React, { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import experienceData from '../data/experience';
 
 const ExperienceSection = ({ experiences = experienceData }) => {
   const orderedExperiences = [...experiences].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
 
-  useEffect(() => {
-    if (!orderedExperiences.length) return undefined;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const cards = gsap.utils.toArray('.exp-card');
-    gsap.set(cards, { y: 64, opacity: 0, scale: 0.96, filter: 'blur(7px)' });
-
-    const triggers = cards.map((card) => gsap.to(card, {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      filter: 'blur(0px)',
-      duration: 0.95,
-      ease: 'power4.out',
-      scrollTrigger: {
-        trigger: card,
-        start: 'top 82%',
-        end: 'top 62%',
-        scrub: 0.7
-      }
-    }));
-
-    const parallaxTriggers = cards.map((card) => gsap.to(card, {
-      yPercent: -4,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: card,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 0.9
-      }
-    }));
-
-    ScrollTrigger.refresh();
-
-    return () => {
-      triggers.forEach((tween) => tween.kill());
-      parallaxTriggers.forEach((tween) => tween.kill());
-      ScrollTrigger.getAll()
-        .filter((t) => cards.includes(t.trigger))
-        .forEach((t) => t.kill());
-    };
-  }, [orderedExperiences]);
-
   return (
-    <section id="experience" className="section-block depth-shift" data-depth="8">
-      <div className="container">
-        <div className="section-head">
-          <p>Experience</p>
-          <h2>Growth through real-world projects and focused learning.</h2>
-          <span>I have worked across full-stack engineering, analytics, and workflow automation.</span>
-        </div>
+    <section id="experience" className="relative z-10 py-32 px-4 max-w-7xl mx-auto">
+      <div className="mb-16 max-w-2xl">
+        <h2 className="text-sm font-bold tracking-widest text-neon-purple uppercase mb-4">Experience</h2>
+        <p className="text-4xl md:text-6xl font-bold tracking-tighter text-white">Growth through real-world projects.</p>
+      </div>
 
-        <div className="timeline-wrap exp-timeline">
-          {orderedExperiences.map((exp) => (
-            <article key={exp.id || exp.title} className="timeline-entry exp-card">
-              <h3>{exp.title}</h3>
-              <h4>{exp.company}</h4>
-              <p>{exp.description}</p>
-              <div className="exp-tags">
-                {(exp.technologies || []).map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
+      <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[19px] before:w-[2px] before:bg-gradient-to-b before:from-neon-purple before:to-transparent pl-12">
+        {orderedExperiences.map((exp) => (
+          <article key={exp.id || exp.title} className="glass-panel p-8 relative group hover-target">
+            <div className="absolute left-[-48px] top-8 w-10 h-10 rounded-full bg-black border-2 border-neon-purple flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)] group-hover:scale-110 transition-transform">
+              <div className="w-3 h-3 bg-neon-purple rounded-full" />
+            </div>
+            
+            <h3 className="text-2xl font-bold text-white mb-1">{exp.title}</h3>
+            <h4 className="text-neon-purple font-medium mb-4">{exp.company}</h4>
+            <p className="text-gray-400 mb-6">{exp.description}</p>
+            
+            <div className="flex flex-wrap gap-2">
+              {(exp.technologies || []).map((tag) => (
+                <span key={tag} className="px-3 py-1 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-gray-300">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

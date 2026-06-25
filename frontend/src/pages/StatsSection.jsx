@@ -9,12 +9,14 @@ const StatsSection = () => {
   ];
 
   return (
-    <section className="stats-strip reveal-block">
-      <div className="container stats-grid">
+    <section className="relative z-10 py-12 px-4 max-w-7xl mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {stats.map((item) => (
-          <article className="stat-card hover-target" key={item.label}>
-            <p>{item.value}</p>
-            <span>{item.label}</span>
+          <article className="glass-panel p-8 text-center hover-target" key={item.label}>
+            <p className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-neon-purple to-neon-rose bg-clip-text text-transparent mb-2">
+              {item.value}
+            </p>
+            <span className="text-sm text-gray-400 font-medium uppercase tracking-wider">{item.label}</span>
           </article>
         ))}
       </div>
