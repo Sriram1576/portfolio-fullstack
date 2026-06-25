@@ -61,7 +61,7 @@ const ContactSection = () => {
           <div className="contact-meta">
             <div>
               <h3>Email</h3>
-              <a href="mailto:subhamsadangi@gmail.com">subhamsadangi@gmail.com</a>
+              <a href="mailto:subhamsadangi1576@gmail.com">subhamsadangi1576@gmail.com</a>
             </div>
             <div>
               <h3>Location</h3>
