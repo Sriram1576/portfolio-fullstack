@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'py-4' : 'py-6'}`}>
       <div className="max-w-7xl mx-auto px-4">
-        <div className={`flex items-center justify-between px-6 py-4 rounded-full transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md border border-white/10 shadow-2xl' : 'bg-transparent'}`}>
+        <div className={`flex items-center justify-between px-6 py-4 rounded-full transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md border border-tech-border shadow-2xl' : 'bg-transparent'}`}>
           <a href="#hero" onClick={() => scrollToSection('hero')} className="text-xl font-bold tracking-tighter text-white hover-target">
             Subham Sadangi
           </a>
@@ -38,12 +38,12 @@ const Navbar = () => {
 
           <div className="flex items-center gap-2">
             <MagneticButton>
-              <a href="https://github.com/Sriram1576" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors hover-target micro-press">
+              <a href="https://github.com/Sriram1576" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-tech-surface flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors hover-target micro-press">
                 <Github size={18} />
               </a>
             </MagneticButton>
             <MagneticButton>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors hover-target micro-press">
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-tech-surface flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors hover-target micro-press">
                 <Linkedin size={18} />
               </a>
             </MagneticButton>

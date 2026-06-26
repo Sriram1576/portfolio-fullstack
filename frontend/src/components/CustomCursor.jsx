@@ -72,7 +72,7 @@ export default function CustomCursor() {
         gsap.to(ring, { 
           scale: 1, 
           backgroundColor: 'transparent',
-          borderColor: 'rgba(168, 85, 247, 0.5)',
+          borderColor: 'rgba(6, 182, 212, 0.5)',
           duration: 0.3, 
           ease: 'power2.out' 
         });
@@ -117,7 +117,7 @@ export default function CustomCursor() {
       left: 0,
       width: '8px',
       height: '8px',
-      backgroundColor: '#c084fc',
+      backgroundColor: '#06b6d4',
       borderRadius: '50%',
       pointerEvents: 'none',
       zIndex: 9999,
@@ -130,7 +130,7 @@ export default function CustomCursor() {
       left: 0,
       width: '40px',
       height: '40px',
-      border: '1px solid rgba(168, 85, 247, 0.5)',
+      border: '1px solid rgba(6, 182, 212, 0.5)',
       borderRadius: '50%',
       pointerEvents: 'none',
       zIndex: 9998,

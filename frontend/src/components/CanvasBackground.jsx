@@ -1,125 +1,127 @@
-import React, { useRef, useMemo, Suspense } from 'react';
+import React, { useRef, useMemo, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 
-const GlassKnot = () => {
-  const meshRef = useRef();
+// High-Tech Wireframe Grid Terrain
+const TechGrid = () => {
+  const gridRef = useRef();
 
   useFrame((state, delta) => {
-    if (!meshRef.current) return;
-    
-    // Smoothly rotate the object over time
-    meshRef.current.rotation.x += delta * 0.15;
-    meshRef.current.rotation.y += delta * 0.2;
-
-    // Parallax effect responsive to mouse position
-    const targetX = (state.pointer.x * Math.PI) / 4;
-    const targetY = (state.pointer.y * Math.PI) / 4;
-    
-    // Lerp towards the target rotation for smoothness
-    meshRef.current.rotation.y += (targetX - meshRef.current.rotation.y) * 0.05;
-    meshRef.current.rotation.x += (-targetY - meshRef.current.rotation.x) * 0.05;
+    if (gridRef.current) {
+      // Endless scrolling effect
+      gridRef.current.position.z = (state.clock.elapsedTime * 2) % 2;
+    }
   });
 
   return (
-    <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
-      <mesh ref={meshRef} castShadow receiveShadow>
-        <torusKnotGeometry args={[1.5, 0.4, 128, 32]} />
-        <meshPhysicalMaterial
-          metalness={0.1}
-          roughness={0.05}
-          clearcoat={1}
-          clearcoatRoughness={0.05}
-          color="#a855f7"
-          emissive="#7c3aed"
-          emissiveIntensity={0.15}
+    <group rotation={[-Math.PI / 2.2, 0, 0]} position={[0, -2, -10]}>
+      {/* Primary Grid */}
+      <mesh ref={gridRef}>
+        <planeGeometry args={[100, 100, 40, 40]} />
+        <meshBasicMaterial 
+          color="#22c55e" 
+          wireframe={true} 
+          transparent={true} 
+          opacity={0.15} 
         />
       </mesh>
-    </Float>
+      
+      {/* Fade out grid in distance */}
+      <mesh position={[0, 0, 0.1]}>
+        <planeGeometry args={[100, 100]} />
+        <meshBasicMaterial 
+          color="#0f172a" 
+          transparent={true} 
+          opacity={0.8}
+        />
+      </mesh>
+    </group>
   );
 };
 
-const BackgroundParticles = ({ count = 60 }) => {
-  const meshRef = useRef();
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-  
-  const particles = useMemo(() => {
-    const temp = [];
-    for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 30;
-      const y = (Math.random() - 0.5) * 30;
-      const z = (Math.random() - 0.5) * 30 - 5;
-      const scale = Math.random() * 0.05 + 0.01;
-      const speed = Math.random() * 0.2 + 0.1;
-      const offset = Math.random() * Math.PI * 2;
-      temp.push({ x, y, z, scale, speed, offset });
-    }
-    return temp;
-  }, [count]);
+// Subtle floating data particles that react to mouse
+const DataParticles = ({ mousePos }) => {
+  const particlesRef = useRef();
 
-  useFrame(({ clock }) => {
-    if (!meshRef.current) return;
-    const time = clock.getElapsedTime();
-    
-    particles.forEach((particle, i) => {
-      const { x, y, z, scale, speed, offset } = particle;
-      // Gentle floating motion
-      dummy.position.set(
-        x + Math.sin(time * speed + offset) * 0.5,
-        y + Math.cos(time * speed + offset) * 0.5,
-        z
-      );
-      dummy.scale.setScalar(scale);
-      dummy.updateMatrix();
-      meshRef.current.setMatrixAt(i, dummy.matrix);
-    });
-    meshRef.current.instanceMatrix.needsUpdate = true;
+  useFrame((state, delta) => {
+    if (particlesRef.current) {
+      // Basic rotation
+      particlesRef.current.rotation.y -= delta * 0.05;
+      particlesRef.current.rotation.x += delta * 0.02;
+      
+      // Mouse interaction (parallax)
+      const targetX = mousePos.current.x * 0.5;
+      const targetY = mousePos.current.y * 0.5;
+      particlesRef.current.position.x += (targetX - particlesRef.current.position.x) * 0.05;
+      particlesRef.current.position.y += (targetY - particlesRef.current.position.y) * 0.05;
+    }
   });
 
+  // Generate random particles
+  const particlesCount = 1000;
+  const positions = useMemo(() => {
+    const arr = new Float32Array(particlesCount * 3);
+    for (let i = 0; i < particlesCount * 3; i++) {
+      arr[i] = (Math.random() - 0.5) * 30;
+    }
+    return arr;
+  }, []);
+
   return (
-    <instancedMesh ref={meshRef} args={[null, null, count]}>
-      <sphereGeometry args={[1, 8, 8]} />
-      <meshBasicMaterial color="#c084fc" transparent opacity={0.3} />
-    </instancedMesh>
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={particlesCount}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial 
+        size={0.05} 
+        color="#22c55e" 
+        transparent={true} 
+        opacity={0.4} 
+        sizeAttenuation={true} 
+      />
+    </points>
   );
 };
 
 export default function CanvasBackground() {
+  const mousePos = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mousePos.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mousePos.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
   return (
     <div 
-      style={{ 
-        position: 'fixed', 
-        top: 0, 
-        left: 0, 
-        width: '100vw', 
-        height: '100vh', 
-        zIndex: -1, 
-        background: 'radial-gradient(ellipse at 20% 50%, #1a0533 0%, #0a0015 40%, #050010 100%)', 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: -1,
+        // 60% base color (Deep Indigo)
+        background: '#0f172a',
         overflow: 'hidden',
-        pointerEvents: 'none' // Ensures it doesn't block clicks
+        pointerEvents: 'none'
       }}
     >
-      {/* 
-        pointerEvents: 'auto' is needed on Canvas to receive mouse events 
-        even though parent has none. 
-      */}
-      <Canvas 
-        camera={{ position: [0, 0, 8], fov: 45 }} 
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 60 }}
         dpr={[1, 1.5]}
         performance={{ min: 0.5 }}
-        style={{ pointerEvents: 'auto' }}
       >
-        <Suspense fallback={null}>
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[10, 10, 10]} intensity={1.5} />
-          <spotLight position={[-10, -10, -10]} intensity={2} color="#a855f7" />
-          <spotLight position={[10, -10, 10]} intensity={2} color="#ec4899" />
-          
-          <GlassKnot />
-          <BackgroundParticles count={60} />
-          <Stars radius={100} depth={50} count={1500} factor={4} saturation={0} fade speed={1} />
-        </Suspense>
+        <fog attach="fog" args={['#0f172a', 5, 20]} />
+        <TechGrid />
+        <DataParticles mousePos={mousePos} />
       </Canvas>
     </div>
   );

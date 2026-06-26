@@ -4,18 +4,16 @@
 
 @layer base {
   :root {
-    --bg-oled: #050010;
-    --bg-slate: #0f0a1a;
-    --accent-purple: #a855f7;
-    --accent-rose: #ec4899;
-    --accent-amber: #f59e0b;
+    --bg-base: #0f172a;
+    --bg-surface: #1e293b;
+    --accent-cyan: #22c55e;
     
-    --glass-border: rgba(168, 85, 247, 0.1);
-    --glass-bg: rgba(255, 255, 255, 0.02);
+    --glass-border: rgba(51, 65, 85, 0.6);
+    --glass-bg: rgba(30, 41, 59, 0.5);
+    --glass-bg-hover: rgba(51, 65, 85, 0.8);
   }
 
   html {
-    scroll-behavior: smooth;
     /* Hide scrollbars globally */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
@@ -26,9 +24,9 @@
   }
 
   body {
-    background-color: var(--bg-oled);
-    color: #ffffff;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-base);
+    color: #e4e4e7; /* Zinc 200 */
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
@@ -38,20 +36,21 @@
 }
 
 @layer components {
-  /* Spatial UI + Liquid Glass Aesthetic */
+  /* High-Tech Glass Aesthetic */
   .glass-panel {
     background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
     border-radius: theme('borderRadius.bento');
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   }
   
   .glass-panel:hover {
-    border-color: rgba(168, 85, 247, 0.2);
-    box-shadow: 0 8px 32px rgba(168, 85, 247, 0.15); /* subtle purple glow */
+    background: var(--glass-bg-hover);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 8px 32px rgba(34, 197, 94, 0.2); /* green glow */
   }
 
   /* Bento Grid Layout Definitions */
@@ -135,5 +134,61 @@ textarea.focus-glow:focus {
 .reveal-up {
   opacity: 0;
   transform: translateY(20px);
+}
+
+/* ============================================
+   USER'S ORIGINAL FLOATING GLASS DESIGN
+   ============================================ */
+.floating-glass {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.6) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+
+.floating-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0) 0%, rgba(34, 197, 94, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.floating-glass:hover {
+  transform: translateY(-8px) rotateX(2deg);
+  box-shadow: 0 12px 30px rgba(34, 197, 94, 0.25);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.floating-glass:hover::before {
+  opacity: 1;
+}
+
+.floating-glass > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Floating Icon Animation */
+.float-icon {
+  animation: float3D 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.3));
+}
+
+@keyframes float3D {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0px);
+  }
+  50% {
+    transform: translateY(-10px) translateZ(20px);
+  }
 }
 }

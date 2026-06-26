@@ -28,15 +28,15 @@ const ProjectsSection = ({ projects = projectsData }) => {
         }
       );
 
-      // Fade in the bento grid cards
+      // Fade in the bento grid cards with Clip-Path Reveal
       cardsRef.current.forEach((card, i) => {
         if (!card) return;
         gsap.fromTo(card, 
-          { opacity: 0, y: 50, scale: 0.95 },
+          { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)', y: 80, opacity: 0 },
           {
-            opacity: 1, y: 0, scale: 1,
-            duration: 0.8,
-            ease: 'back.out(1.2)',
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', y: 0, opacity: 1,
+            duration: 1.2,
+            ease: 'expo.out',
             scrollTrigger: {
               trigger: card,
               start: 'top 85%',
@@ -92,7 +92,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
     <section id="projects" className="section-block relative z-10 py-24" ref={sectionRef}>
       <div className="container px-4 mx-auto">
         <div className="mb-16 md:mb-24 max-w-3xl">
-          <p className="text-purple-400 font-mono text-sm tracking-wider uppercase mb-3 section-head-animate">Selected Work</p>
+          <p className="text-tech-accent font-mono text-sm tracking-wider uppercase mb-3 section-head-animate">Selected Work</p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-white section-head-animate">
             Projects that combine product thinking with engineering depth.
           </h2>
@@ -107,7 +107,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
             // Logic to determine bento grid spanning sizes
             // Every 1st item spans 2 cols, every 4th item spans 2 cols, etc.
             const isLarge = idx === 0 || idx === 3 || idx === 4;
-            const cardClasses = `group relative overflow-hidden rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md p-8 flex flex-col justify-between transition-colors hover:bg-white/10 ${isLarge ? 'md:col-span-2' : 'col-span-1'}`;
+            const cardClasses = `group relative overflow-hidden rounded-3xl bg-tech-surface border border-tech-border backdrop-blur-md p-8 flex flex-col justify-between transition-colors hover:bg-white/10 ${isLarge ? 'md:col-span-2' : 'col-span-1'}`;
 
             return (
               <article 
@@ -119,17 +119,37 @@ const ProjectsSection = ({ projects = projectsData }) => {
                 style={{ transformStyle: 'preserve-3d' }}
                 data-speed={idx % 2 === 0 ? '0.9' : '0.7'}
               >
+                {/* SVG Liquid Distortion Filter */}
+                <svg className="hidden">
+                  <filter id={`liquid-${idx}`}>
+                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+                  </filter>
+                </svg>
+
+                {/* Liquid Image Background */}
+                <div 
+                  className="absolute inset-0 z-0 opacity-10 overflow-hidden mix-blend-screen pointer-events-none rounded-3xl"
+                  style={{ filter: `url(#liquid-${idx})` }}
+                >
+                  <img 
+                    src={`https://picsum.photos/800/600?random=${idx}`} 
+                    alt=""
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 blur-sm group-hover:blur-0"
+                  />
+                </div>
+
                 {/* Background Glow Effect */}
                 <div 
-                  className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
+                  className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 z-0"
                   style={{
-                    background: 'radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.15), transparent 40%)'
+                    background: 'radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(34, 197, 94, 0.15), transparent 40%)'
                   }}
                 />
 
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
-                    <small className="text-purple-400 font-mono text-xs uppercase tracking-wider bg-purple-400/10 px-3 py-1 rounded-full">{project.category}</small>
+                    <small className="text-tech-accent font-mono text-xs uppercase tracking-wider bg-tech-accent/10 px-3 py-1 rounded-full">{project.category}</small>
                     <div className="flex gap-3">
                       {project.github ? (
                         <a href={project.github} target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-white transition-colors">
@@ -143,7 +163,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
                       </a>
                     </div>
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-tight group-hover:text-purple-300 transition-colors">{project.title}</h3>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-tight group-hover:text-tech-accent transition-colors">{project.title}</h3>
                   <p className="text-zinc-400 line-clamp-3 mb-6 text-sm md:text-base">{project.description}</p>
                 </div>
 
@@ -151,7 +171,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
                   {project.highlights && project.highlights.length > 0 && isLarge && (
                     <ul className="mb-6 space-y-2">
                       {project.highlights.slice(0, 2).map((highlight, hidx) => (
-                        <li key={hidx} className="text-sm text-zinc-300 flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-purple-400 before:rounded-full before:mr-3">
+                        <li key={hidx} className="text-sm text-zinc-300 flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-tech-accent before:rounded-full before:mr-3">
                           {highlight}
                         </li>
                       ))}
@@ -160,7 +180,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
 
                   <div className="flex flex-wrap gap-2">
                     {(project.technologies || []).slice(0, 4).map((tag) => (
-                      <span key={tag} className="text-xs font-medium text-zinc-300 bg-white/5 border border-white/10 px-3 py-1.5 rounded-md">
+                      <span key={tag} className="text-xs font-medium text-zinc-300 bg-tech-surface border border-tech-border px-3 py-1.5 rounded-md">
                         {tag}
                       </span>
                     ))}

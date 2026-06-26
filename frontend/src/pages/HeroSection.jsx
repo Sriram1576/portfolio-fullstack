@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { ArrowUpRight, Download, Briefcase, MapPin, Sparkles } from 'lucide-react';
 import MagneticButton from '../components/MagneticButton';
-import NeuralCanvas from '../components/NeuralCanvas';
 import gsap from 'gsap';
 
 const HeroSection = () => {
@@ -88,8 +87,6 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden" ref={heroRef}>
-      {/* WebGL/Canvas Background */}
-      <NeuralCanvas />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
@@ -97,13 +94,13 @@ const HeroSection = () => {
           {/* Main Hero Content */}
           <div className="lg:col-span-7 xl:col-span-8" data-speed="0.8">
             <div className="flex flex-wrap gap-3 mb-8">
-              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-purple-400/10 text-purple-400 border border-purple-400/20 text-sm font-medium backdrop-blur-sm micro-spring">
+              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-tech-accent/10 text-tech-accent border border-tech-accent/20 text-sm font-medium backdrop-blur-sm micro-spring">
                 <Sparkles size={14} /> Open for internships
               </span>
-              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/5 text-zinc-300 border border-white/10 text-sm font-medium backdrop-blur-sm micro-spring">
+              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-tech-surface text-zinc-300 border border-tech-border text-sm font-medium backdrop-blur-sm micro-spring">
                 <Briefcase size={14} /> Freelance projects
               </span>
-              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/5 text-zinc-300 border border-white/10 text-sm font-medium backdrop-blur-sm micro-spring">
+              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-tech-surface text-zinc-300 border border-tech-border text-sm font-medium backdrop-blur-sm micro-spring">
                 <MapPin size={14} /> Odisha, India
               </span>
             </div>
@@ -113,7 +110,7 @@ const HeroSection = () => {
               className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 leading-[1.1] perspective-[1000px]"
             >
               <span className="block overflow-hidden pb-2"><span className="word inline-block">Building</span></span>
-              <span className="block overflow-hidden pb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-rose-400"><span className="word inline-block">immersive digital</span></span>
+              <span className="block overflow-hidden pb-2 text-transparent bg-clip-text bg-gradient-to-r from-tech-accent to-cyan-200"><span className="word inline-block">immersive digital</span></span>
               <span className="block overflow-hidden pb-2"><span className="word inline-block">experiences</span></span>
             </h1>
 
@@ -155,27 +152,27 @@ const HeroSection = () => {
 
           {/* Side Info Card */}
           <div className="lg:col-span-5 xl:col-span-4 hidden lg:block">
-            <div className="hero-info-card bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-8 relative overflow-hidden transform-style-3d shadow-2xl" data-speed="0.6">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-400/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            <div className="hero-info-card bg-tech-surface border border-tech-border backdrop-blur-xl rounded-3xl p-8 relative overflow-hidden transform-style-3d shadow-2xl" data-speed="0.6">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-tech-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
               
               <h3 className="text-xl font-bold text-white mb-6">What I bring</h3>
               
               <ul className="space-y-6 mb-8 relative z-10">
                 <li className="group">
-                  <strong className="block text-purple-400 font-medium mb-1 group-hover:translate-x-1 transition-transform">End-to-end delivery</strong>
+                  <strong className="block text-tech-accent font-medium mb-1 group-hover:translate-x-1 transition-transform">End-to-end delivery</strong>
                   <span className="text-zinc-400 text-sm">From APIs and databases to responsive React interfaces.</span>
                 </li>
                 <li className="group">
-                  <strong className="block text-purple-400 font-medium mb-1 group-hover:translate-x-1 transition-transform">Practical AI integration</strong>
+                  <strong className="block text-tech-accent font-medium mb-1 group-hover:translate-x-1 transition-transform">Practical AI integration</strong>
                   <span className="text-zinc-400 text-sm">ML-backed features connected to real product workflows.</span>
                 </li>
                 <li className="group">
-                  <strong className="block text-purple-400 font-medium mb-1 group-hover:translate-x-1 transition-transform">Performance-first mindset</strong>
+                  <strong className="block text-tech-accent font-medium mb-1 group-hover:translate-x-1 transition-transform">Performance-first mindset</strong>
                   <span className="text-zinc-400 text-sm">Fast load times, stable UX, and maintainable codebases.</span>
                 </li>
               </ul>
               
-              <div className="pt-6 border-t border-white/10 grid grid-cols-2 gap-4 relative z-10">
+              <div className="pt-6 border-t border-tech-border grid grid-cols-2 gap-4 relative z-10">
                 <div>
                   <p className="text-xs text-zinc-500 uppercase tracking-wider font-mono mb-1">Current focus</p>
                   <p className="text-sm font-medium text-zinc-300">Data Science & AI/ML</p>
