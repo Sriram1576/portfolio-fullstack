@@ -49,6 +49,26 @@ const experience = [
     type: 'Training',
     orderIndex: 3,
   },
+  {
+    id: 'ui-ux-design-eduskill',
+    title: 'Professional UI/UX Design & Web Prototyping',
+    company: 'EduSkill',
+    description: 'Specialized internship in modern interface design, user experience optimization, and rapid web prototyping. (Grade O)',
+    technologies: ['UI/UX', 'Figma', 'Prototyping', 'Web Design'],
+    period: '2026',
+    type: 'Internship',
+    orderIndex: 4,
+  },
+  {
+    id: 'prompt-engineering-ai-eduskill',
+    title: 'Prompt Engineering for AI',
+    company: 'EduSkill Academy',
+    description: 'Internship focused on optimizing AI interactions, context engineering, and deploying large language models for practical applications.',
+    technologies: ['Prompt Engineering', 'AI', 'LLMs', 'Context Optimization'],
+    period: '2026',
+    type: 'Internship',
+    orderIndex: 5,
+  },
 ];
 
 export default experience;
