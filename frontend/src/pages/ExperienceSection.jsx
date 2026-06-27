@@ -63,6 +63,11 @@ const ExperienceSection = ({ experiences = experienceData }) => {
           >
             {/* Timeline & Company */}
             <div className="md:col-span-3">
+              {exp.type && (
+                <span className="inline-block px-2.5 py-1 mb-3 text-[10px] font-bold tracking-widest uppercase rounded bg-tech-surface text-tech-accent border border-tech-accent/30">
+                  {exp.type}
+                </span>
+              )}
               <p className="text-tech-secondary font-medium tracking-widest text-xs uppercase mb-2">{exp.period || '2023 — Present'}</p>
               <h4 className="text-xl font-serif italic text-tech-primary">{exp.company}</h4>
             </div>

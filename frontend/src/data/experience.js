@@ -6,6 +6,7 @@ const experience = [
     description: 'Pursuing an AI/ML major training track focused on model development, evaluation, and practical machine learning implementation.',
     technologies: ['AI', 'Machine Learning', 'Model Evaluation', 'Deep Learning Basics'],
     period: '2024 - 2026 (Finished)',
+    type: 'Education',
     orderIndex: 0,
   },
   {
@@ -15,6 +16,7 @@ const experience = [
     description: 'Pursuing B.Tech in Data Science since 2024 with a focus on statistics, machine learning foundations, and applied analytics.',
     technologies: ['Data Science', 'Statistics', 'Python', 'Machine Learning'],
     period: '2024 - Present',
+    type: 'Education',
     orderIndex: 0,
   },
   {
@@ -24,6 +26,7 @@ const experience = [
     description: 'Completed intensive full-stack training covering MongoDB, Express.js, React, and Node.js to build scalable web applications.',
     technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
     period: '2026',
+    type: 'Training',
     orderIndex: 1,
   },
   {
@@ -33,6 +36,7 @@ const experience = [
     description: 'Worked on equity research and market trend analysis using technical indicators on real market data. SEBI certified.',
     technologies: ['Technical Analysis', 'Financial Data'],
     period: '2025',
+    type: 'Internship',
     orderIndex: 2,
   },
   {
@@ -42,6 +46,7 @@ const experience = [
     description: 'Completed hands-on RPA training with UiPath Studio and built automated workflows for business process optimization.',
     technologies: ['UiPath', 'Automation', 'Business Process'],
     period: '2026',
+    type: 'Training',
     orderIndex: 3,
   },
 ];
