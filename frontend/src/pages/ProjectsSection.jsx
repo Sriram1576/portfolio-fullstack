@@ -92,11 +92,11 @@ const ProjectsSection = ({ projects = projectsData }) => {
     <section id="projects" className="section-block relative z-10 py-24" ref={sectionRef}>
       <div className="container px-4 mx-auto">
         <div className="mb-16 md:mb-24 max-w-3xl">
-          <p className="text-tech-accent font-mono text-sm tracking-wider uppercase mb-3 section-head-animate">Selected Work</p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-white section-head-animate">
+          <p className="text-tech-secondary font-mono text-sm tracking-wider uppercase mb-3 section-head-animate">Selected Work</p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-tech-text section-head-animate">
             Projects that combine product thinking with engineering depth.
           </h2>
-          <span className="text-lg md:text-xl text-zinc-400 section-head-animate inline-block">
+          <span className="text-lg md:text-xl text-tech-text/70 section-head-animate inline-block">
             Each project reflects a balance of usability, data insight, and technical execution.
           </span>
         </div>
@@ -107,7 +107,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
             // Logic to determine bento grid spanning sizes
             // Every 1st item spans 2 cols, every 4th item spans 2 cols, etc.
             const isLarge = idx === 0 || idx === 3 || idx === 4;
-            const cardClasses = `group relative overflow-hidden rounded-3xl bg-tech-surface border border-tech-border backdrop-blur-md p-8 flex flex-col justify-between transition-colors hover:bg-white/10 ${isLarge ? 'md:col-span-2' : 'col-span-1'}`;
+            const cardClasses = `group relative overflow-hidden glass-panel p-8 flex flex-col justify-between ${isLarge ? 'md:col-span-2' : 'col-span-1'}`;
 
             return (
               <article 
@@ -116,24 +116,20 @@ const ProjectsSection = ({ projects = projectsData }) => {
                 ref={(el) => (cardsRef.current[idx] = el)}
                 onMouseMove={(e) => handleMouseMove(e, idx)}
                 onMouseLeave={() => handleMouseLeave(idx)}
-                style={{ transformStyle: 'preserve-3d' }}
-                data-speed={idx % 2 === 0 ? '0.9' : '0.7'}
               >
-                {/* SVG Liquid Distortion Filter */}
-                <svg className="hidden">
-                  <filter id={`liquid-${idx}`}>
-                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
-                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
-                  </filter>
-                </svg>
-
-                {/* Liquid Image Background */}
                 <div 
-                  className="absolute inset-0 z-0 opacity-10 overflow-hidden mix-blend-screen pointer-events-none rounded-3xl"
-                  style={{ filter: `url(#liquid-${idx})` }}
+                  className="absolute inset-0 z-0 opacity-10 overflow-hidden mix-blend-screen pointer-events-none rounded-3xl will-change-transform"
+                  style={{ transformStyle: 'preserve-3d', filter: `url(#liquid-${idx})` }}
+                  data-speed={idx % 2 === 0 ? '0.9' : '0.7'}
                 >
+                  <svg className="hidden">
+                    <filter id={`liquid-${idx}`}>
+                      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+                      <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+                    </filter>
+                  </svg>
                   <img 
-                    src={`https://picsum.photos/800/600?random=${idx}`} 
+                    src={project.imageUrl || `https://picsum.photos/800/600?random=${idx}`} 
                     alt=""
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 blur-sm group-hover:blur-0"
                   />
@@ -149,29 +145,29 @@ const ProjectsSection = ({ projects = projectsData }) => {
 
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
-                    <small className="text-tech-accent font-mono text-xs uppercase tracking-wider bg-tech-accent/10 px-3 py-1 rounded-full">{project.category}</small>
+                    <small className="text-tech-secondary font-mono text-xs uppercase tracking-wider bg-tech-secondary/10 px-3 py-1 rounded-full">{project.category}</small>
                     <div className="flex gap-3">
                       {project.github ? (
-                        <a href={project.github} target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-white transition-colors">
+                        <a href={project.github} target="_blank" rel="noreferrer" className="text-tech-text/70 hover:text-tech-text transition-colors">
                           <Github size={20} />
                         </a>
                       ) : (
-                        <span className="text-zinc-500 text-sm font-medium">Case study</span>
+                        <span className="text-tech-text/50 text-sm font-medium">Case study</span>
                       )}
-                      <a href="#" className="text-zinc-400 hover:text-white transition-colors">
+                      <a href="#" className="text-tech-text/70 hover:text-tech-text transition-colors">
                         <ExternalLink size={20} />
                       </a>
                     </div>
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-tight group-hover:text-tech-accent transition-colors">{project.title}</h3>
-                  <p className="text-zinc-400 line-clamp-3 mb-6 text-sm md:text-base">{project.description}</p>
+                  <h3 className="text-2xl md:text-3xl font-bold text-tech-text mb-3 tracking-tight group-hover:text-tech-secondary transition-colors">{project.title}</h3>
+                  <p className="text-tech-text/70 line-clamp-3 mb-6 text-sm md:text-base">{project.description}</p>
                 </div>
 
                 <div className="relative z-10 mt-auto">
                   {project.highlights && project.highlights.length > 0 && isLarge && (
                     <ul className="mb-6 space-y-2">
                       {project.highlights.slice(0, 2).map((highlight, hidx) => (
-                        <li key={hidx} className="text-sm text-zinc-300 flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-tech-accent before:rounded-full before:mr-3">
+                        <li key={hidx} className="text-sm text-tech-text/80 flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-tech-accent before:rounded-full before:mr-3">
                           {highlight}
                         </li>
                       ))}
@@ -180,12 +176,12 @@ const ProjectsSection = ({ projects = projectsData }) => {
 
                   <div className="flex flex-wrap gap-2">
                     {(project.technologies || []).slice(0, 4).map((tag) => (
-                      <span key={tag} className="text-xs font-medium text-zinc-300 bg-tech-surface border border-tech-border px-3 py-1.5 rounded-md">
+                      <span key={tag} className="text-xs font-medium text-tech-text/80 bg-white/60 border border-tech-border px-3 py-1.5 rounded-md">
                         {tag}
                       </span>
                     ))}
                     {(project.technologies?.length > 4) && (
-                      <span className="text-xs font-medium text-zinc-500 px-2 py-1.5">+{project.technologies.length - 4}</span>
+                      <span className="text-xs font-medium text-tech-text/50 px-2 py-1.5">+{project.technologies.length - 4}</span>
                     )}
                   </div>
                 </div>

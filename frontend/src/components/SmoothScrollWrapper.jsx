@@ -25,15 +25,17 @@ const SmoothScrollWrapper = ({ children }) => {
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    // FIX: Define a named function so we can actually remove it from the ticker later!
+    const update = (time, deltaTime, frame) => {
       lenis.raf(time * 1000);
-    });
+    };
 
+    gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(update); // Correctly remove the exact function we added
     };
   }, []);
 

@@ -11,6 +11,7 @@ const projects = [
     ],
     github: 'https://github.com/Sriram1576/Stock-Trend-Predictor',
     orderIndex: 1,
+    imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800',
   },
   {
     id: 'universal-recommendation',
@@ -24,6 +25,7 @@ const projects = [
     ],
     github: 'https://github.com/Sriram1576/Universal-Recommendation',
     orderIndex: 2,
+    imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800',
   },
 ];
 

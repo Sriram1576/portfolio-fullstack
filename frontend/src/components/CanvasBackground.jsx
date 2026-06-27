@@ -19,10 +19,10 @@ const TechGrid = () => {
       <mesh ref={gridRef}>
         <planeGeometry args={[100, 100, 40, 40]} />
         <meshBasicMaterial 
-          color="#22c55e" 
+          color="#0F5C5E" 
           wireframe={true} 
           transparent={true} 
-          opacity={0.15} 
+          opacity={0.1} 
         />
       </mesh>
       
@@ -30,9 +30,9 @@ const TechGrid = () => {
       <mesh position={[0, 0, 0.1]}>
         <planeGeometry args={[100, 100]} />
         <meshBasicMaterial 
-          color="#0f172a" 
+          color="#F5F1EA" 
           transparent={true} 
-          opacity={0.8}
+          opacity={0.9}
         />
       </mesh>
     </group>
@@ -78,10 +78,10 @@ const DataParticles = ({ mousePos }) => {
         />
       </bufferGeometry>
       <pointsMaterial 
-        size={0.05} 
-        color="#22c55e" 
+        size={0.06} 
+        color="#D9A441" 
         transparent={true} 
-        opacity={0.4} 
+        opacity={0.6} 
         sizeAttenuation={true} 
       />
     </points>
@@ -108,18 +108,18 @@ export default function CanvasBackground() {
         width: '100vw',
         height: '100vh',
         zIndex: -1,
-        // 60% base color (Deep Indigo)
-        background: '#0f172a',
+        // Beige Background
+        background: '#F5F1EA',
         overflow: 'hidden',
         pointerEvents: 'none'
       }}
     >
       <Canvas
         camera={{ position: [0, 0, 5], fov: 60 }}
-        dpr={[1, 1.5]}
+        dpr={[1, 1]}
         performance={{ min: 0.5 }}
       >
-        <fog attach="fog" args={['#0f172a', 5, 20]} />
+        <fog attach="fog" args={['#F5F1EA', 5, 20]} />
         <TechGrid />
         <DataParticles mousePos={mousePos} />
       </Canvas>

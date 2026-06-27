@@ -1,196 +1,205 @@
 import React, { useEffect, useRef } from 'react';
-import { ArrowUpRight, Download, Briefcase, MapPin, Sparkles } from 'lucide-react';
-import MagneticButton from '../components/MagneticButton';
+import { ArrowUpRight, Download } from 'lucide-react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import MagneticButton from '../components/MagneticButton';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
-  const heroRef = useRef(null);
-  const headlineRef = useRef(null);
+  const containerRef = useRef(null);
+  const cardRef = useRef(null);
+  const glowRef = useRef(null);
 
   useEffect(() => {
-    if (!heroRef.current) return undefined;
-
     const ctx = gsap.context(() => {
-      // Manual split text animation
-      const textElements = headlineRef.current.querySelectorAll('.word');
-      
-      const tl = gsap.timeline({ delay: 0.2 });
-
-      tl.fromTo(
-        '.hero-chip-badge',
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'back.out(1.5)' }
-      )
-      .fromTo(
-        textElements,
-        { y: 100, opacity: 0, rotateX: -40, transformOrigin: '0% 50% -50' },
-        { y: 0, opacity: 1, rotateX: 0, stagger: 0.08, duration: 1.2, ease: 'power4.out' },
-        "-=0.4"
-      )
-      .fromTo(
-        '.hero-desc',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-        "-=0.8"
-      )
-      .fromTo(
-        '.hero-cta-btn',
-        { scale: 0.8, opacity: 0 },
-        { scale: 1, opacity: 1, stagger: 0.1, duration: 0.6, ease: 'back.out(1.2)' },
-        "-=0.6"
+      // Elegant slow reveal
+      gsap.fromTo('.editorial-reveal',
+        { y: 40, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 1.5,
+          stagger: 0.2,
+          ease: 'power3.out'
+        }
       );
 
-    }, heroRef);
+      gsap.fromTo('.hero-image-card',
+        { scale: 0.95, opacity: 0, filter: 'blur(10px)' },
+        {
+          scale: 1, opacity: 1, filter: 'blur(0px)',
+          duration: 2,
+          ease: 'power3.out',
+          delay: 0.4
+        }
+      );
 
-    // Magnetic card effect
-    const heroCard = heroRef.current.querySelector('.hero-info-card');
-    if (heroCard) {
-      const onMove = (event) => {
-        const rect = heroCard.getBoundingClientRect();
-        const px = (event.clientX - rect.left) / rect.width - 0.5;
-        const py = (event.clientY - rect.top) / rect.height - 0.5;
-        gsap.to(heroCard, {
-          rotateY: px * 20,
-          rotateX: -py * 20,
-          transformPerspective: 1000,
-          duration: 0.4,
-          ease: 'power3.out'
-        });
+      // Parallax for Glow Background removed to fix heavy 100px blur rendering lag during scroll
+
+      // Parallax for Image Card
+      gsap.to(cardRef.current, {
+        y: 80,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      // 3D Mousemove effect
+      const xTo = gsap.quickTo(cardRef.current, "rotateY", { duration: 0.5, ease: "power3" });
+      const yTo = gsap.quickTo(cardRef.current, "rotateX", { duration: 0.5, ease: "power3" });
+      
+      const handleMouseMove = (e) => {
+        if(!cardRef.current || !containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        
+        xTo(x * 10);
+        yTo(-y * 10);
       };
 
-      const onLeave = () => {
-        gsap.to(heroCard, {
-          rotateY: 0,
-          rotateX: 0,
-          duration: 0.7,
-          ease: 'elastic.out(1, 0.5)'
-        });
+      const handleMouseLeave = () => {
+        xTo(0);
+        yTo(0);
       };
 
-      heroCard.addEventListener('mousemove', onMove);
-      heroCard.addEventListener('mouseleave', onLeave);
+      const container = containerRef.current;
+      if (container) {
+        container.addEventListener('mousemove', handleMouseMove);
+        container.addEventListener('mouseleave', handleMouseLeave);
+      }
 
       return () => {
-        ctx.revert();
-        heroCard.removeEventListener('mousemove', onMove);
-        heroCard.removeEventListener('mouseleave', onLeave);
+        if (container) {
+          container.removeEventListener('mousemove', handleMouseMove);
+          container.removeEventListener('mouseleave', handleMouseLeave);
+        }
       };
-    }
-    
+    }, containerRef);
     return () => ctx.revert();
   }, []);
 
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden" ref={heroRef}>
+    <section 
+      id="hero" 
+      ref={containerRef}
+      className="relative min-h-screen pt-32 pb-16 px-6 md:px-12 lg:px-24 flex items-center overflow-hidden"
+    >
+      <div ref={glowRef} className="absolute top-1/2 right-0 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-indigo-900/30 to-tech-accent/10 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse-glow" style={{ willChange: 'transform' }} />
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Main Hero Content */}
-          <div className="lg:col-span-7 xl:col-span-8" data-speed="0.8">
-            <div className="flex flex-wrap gap-3 mb-8">
-              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-tech-accent/10 text-tech-accent border border-tech-accent/20 text-sm font-medium backdrop-blur-sm micro-spring">
-                <Sparkles size={14} /> Open for internships
-              </span>
-              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-tech-surface text-zinc-300 border border-tech-border text-sm font-medium backdrop-blur-sm micro-spring">
-                <Briefcase size={14} /> Freelance projects
-              </span>
-              <span className="hero-chip-badge inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-tech-surface text-zinc-300 border border-tech-border text-sm font-medium backdrop-blur-sm micro-spring">
-                <MapPin size={14} /> Odisha, India
-              </span>
-            </div>
+      <div className="max-w-7xl mx-auto w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Left Content */}
+        <div className="lg:col-span-7 flex flex-col justify-center">
+          <p className="editorial-reveal text-tech-secondary font-medium tracking-[0.2em] uppercase text-sm mb-6 flex items-center gap-4">
+            <span className="w-12 h-[1px] bg-tech-accent"></span>
+            Data Science & Software Engineering
+          </p>
 
-            <h1 
-              ref={headlineRef}
-              className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 leading-[1.1] perspective-[1000px]"
-            >
-              <span className="block overflow-hidden pb-2"><span className="word inline-block">Building</span></span>
-              <span className="block overflow-hidden pb-2 text-transparent bg-clip-text bg-gradient-to-r from-tech-accent to-cyan-200"><span className="word inline-block">immersive digital</span></span>
-              <span className="block overflow-hidden pb-2"><span className="word inline-block">experiences</span></span>
-            </h1>
+          <h1 className="editorial-reveal text-5xl md:text-7xl lg:text-[5.5rem] font-serif font-medium text-tech-primary mb-8 leading-[1.1] tracking-tight">
+            Building elegant <br />
+            <span className="italic text-tech-secondary">digital solutions.</span>
+          </h1>
 
-            <p className="hero-desc text-lg md:text-xl text-zinc-400 max-w-2xl mb-10 leading-relaxed">
-              I am a B.Tech Data Science student at GIET and pursuing an AI/ML major track with IIT Ropar,
-              while building reliable web products with React, Node.js, and data-driven engineering.
-            </p>
+          <p className="editorial-reveal text-lg md:text-xl text-tech-secondary max-w-xl mb-12 leading-relaxed font-light">
+            I craft seamless, high-performance web products merging data-driven engineering with 
+            immaculate digital experiences. Currently pursuing Data Science & AI.
+          </p>
 
-            <div className="flex flex-wrap gap-4 items-center">
-              <MagneticButton>
-                <button 
-                  className="hero-cta-btn bg-white text-black px-8 py-4 rounded-full font-semibold flex items-center gap-2 hover:bg-zinc-200 transition-colors micro-press"
-                  onClick={() => scrollToSection('projects')}
-                >
-                  View projects <ArrowUpRight size={18} />
-                </button>
-              </MagneticButton>
-              <MagneticButton>
-                <button 
-                  className="hero-cta-btn bg-white/10 text-white px-8 py-4 rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-colors backdrop-blur-md micro-press"
-                  onClick={() => scrollToSection('contact')}
-                >
-                  Contact me
-                </button>
-              </MagneticButton>
-              <MagneticButton>
-                <a
-                  className="hero-cta-btn text-zinc-300 hover:text-white flex items-center gap-2 font-medium ml-4 transition-colors group micro-press"
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Download size={18} className="group-hover:-translate-y-1 transition-transform" /> 
-                  <span className="border-b border-zinc-600 group-hover:border-white pb-0.5 transition-colors">Resume</span>
-                </a>
-              </MagneticButton>
-            </div>
+          <div className="editorial-reveal flex flex-wrap gap-6 items-center">
+            <MagneticButton>
+              <button 
+                className="group bg-tech-primary text-[#0B0D17] px-8 py-4 rounded-full font-medium flex items-center gap-3 hover:bg-tech-accent hover:text-[#0B0D17] transition-all duration-300 hover:shadow-xl hover:shadow-tech-accent/20 active:scale-95"
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Selected Works <ArrowUpRight size={18} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </button>
+            </MagneticButton>
+            
+            <MagneticButton>
+              <a 
+                href="/resume.pdf" 
+                target="_blank" 
+                rel="noreferrer"
+                className="relative text-tech-primary font-medium flex items-center gap-2 pb-1 hover:text-tech-accent transition-colors duration-300 active:scale-95 group"
+              >
+                Resume 
+                <Download size={16} className="transition-transform duration-300 group-hover:-translate-y-1" />
+                <span className="absolute bottom-0 left-0 w-full h-px bg-tech-primary/30 transition-all duration-300 group-hover:bg-transparent"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-tech-accent transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </MagneticButton>
+            
+            <MagneticButton>
+              <a 
+                className="relative text-tech-primary font-medium pb-1 hover:text-tech-accent transition-colors duration-300 active:scale-95 group"
+                href="#contact"
+              >
+                Get in Touch
+                <span className="absolute bottom-0 left-0 w-full h-px bg-tech-primary/30 transition-all duration-300 group-hover:bg-transparent"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-tech-accent transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </MagneticButton>
           </div>
+        </div>
 
-          {/* Side Info Card */}
-          <div className="lg:col-span-5 xl:col-span-4 hidden lg:block">
-            <div className="hero-info-card bg-tech-surface border border-tech-border backdrop-blur-xl rounded-3xl p-8 relative overflow-hidden transform-style-3d shadow-2xl" data-speed="0.6">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-tech-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+        {/* Right Image/Content Container */}
+        <div className="lg:col-span-5 relative hidden md:block" style={{ perspective: '1000px' }}>
+          {/* Formatted like the Project Cards: Liquid glass, background image, overlaid text */}
+          <div ref={cardRef} className="hero-image-card relative w-full aspect-[3/4] liquid-glass p-8 flex flex-col justify-end overflow-hidden group" style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}>
+            
+            {/* Background Image Layer */}
+            <div className="absolute inset-0 z-0 opacity-50 mix-blend-screen pointer-events-none transition-transform duration-1000 group-hover:scale-110">
+              <img 
+                src="/profile-image.jpeg" 
+                alt="Profile Background" 
+                className="w-full h-full object-cover"
+              />
+              {/* Dark Gradient Overlay to ensure text is readable */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D17] via-[#0B0D17]/80 to-transparent"></div>
+            </div>
+
+            {/* Overlaid "What I Bring" Content */}
+            <div className="relative z-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <h3 className="text-2xl font-serif font-medium text-tech-accent mb-4 flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-tech-accent animate-pulse" />
+                What I bring
+              </h3>
               
-              <h3 className="text-xl font-bold text-white mb-6">What I bring</h3>
-              
-              <ul className="space-y-6 mb-8 relative z-10">
-                <li className="group">
-                  <strong className="block text-tech-accent font-medium mb-1 group-hover:translate-x-1 transition-transform">End-to-end delivery</strong>
-                  <span className="text-zinc-400 text-sm">From APIs and databases to responsive React interfaces.</span>
+              <ul className="space-y-3 mb-6">
+                <li>
+                  <strong className="text-tech-primary block text-sm">End-to-end delivery</strong>
+                  <span className="text-tech-primary/80 font-light text-xs">From APIs and databases to responsive React interfaces.</span>
                 </li>
-                <li className="group">
-                  <strong className="block text-tech-accent font-medium mb-1 group-hover:translate-x-1 transition-transform">Practical AI integration</strong>
-                  <span className="text-zinc-400 text-sm">ML-backed features connected to real product workflows.</span>
+                <li>
+                  <strong className="text-tech-primary block text-sm">Practical AI integration</strong>
+                  <span className="text-tech-primary/80 font-light text-xs">ML-backed features connected to real product workflows.</span>
                 </li>
-                <li className="group">
-                  <strong className="block text-tech-accent font-medium mb-1 group-hover:translate-x-1 transition-transform">Performance-first mindset</strong>
-                  <span className="text-zinc-400 text-sm">Fast load times, stable UX, and maintainable codebases.</span>
+                <li>
+                  <strong className="text-tech-primary block text-sm">Performance-first mindset</strong>
+                  <span className="text-tech-primary/80 font-light text-xs">Fast load times, stable UX, and maintainable codebases.</span>
                 </li>
               </ul>
-              
-              <div className="pt-6 border-t border-tech-border grid grid-cols-2 gap-4 relative z-10">
+
+              <div className="flex gap-6 border-t border-tech-primary/20 pt-4">
                 <div>
-                  <p className="text-xs text-zinc-500 uppercase tracking-wider font-mono mb-1">Current focus</p>
-                  <p className="text-sm font-medium text-zinc-300">Data Science & AI/ML</p>
+                  <span className="text-tech-accent text-[10px] uppercase tracking-wider block mb-1">Current focus</span>
+                  <span className="text-tech-primary text-xs font-medium">Data Science + AI/ML + Full-Stack</span>
                 </div>
                 <div>
-                  <p className="text-xs text-zinc-500 uppercase tracking-wider font-mono mb-1">Location</p>
-                  <p className="text-sm font-medium text-zinc-300">Odisha, India</p>
+                  <span className="text-tech-accent text-[10px] uppercase tracking-wider block mb-1">Location</span>
+                  <span className="text-tech-primary text-xs font-medium">Odisha, India</span>
                 </div>
               </div>
             </div>
+
           </div>
-
         </div>
-      </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-50">
-        <span className="text-xs tracking-widest text-zinc-400 uppercase font-mono">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-zinc-400 to-transparent"></div>
       </div>
     </section>
   );

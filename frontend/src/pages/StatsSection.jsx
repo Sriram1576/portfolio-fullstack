@@ -41,7 +41,7 @@ const StatsSection = () => {
             <p className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-tech-accent/80 to-tech-accent/40 bg-clip-text text-transparent mb-2">
               {item.value}
             </p>
-            <span className="text-sm text-gray-400 font-medium uppercase tracking-wider">{item.label}</span>
+            <span className="text-sm text-tech-text/70 font-medium uppercase tracking-wider">{item.label}</span>
           </article>
         ))}
       </div>

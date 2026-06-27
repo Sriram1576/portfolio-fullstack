@@ -92,7 +92,7 @@ const Preloader = ({ onComplete }) => {
           {progress}%
         </div>
       </div>
-      <div className="absolute bottom-10 left-10 right-10 flex justify-between text-sm uppercase tracking-widest text-zinc-500">
+      <div className="absolute bottom-10 left-10 right-10 flex justify-between text-sm uppercase tracking-widest text-tech-text/50">
         <span>Initializing Experience</span>
         <span>Please Wait</span>
       </div>

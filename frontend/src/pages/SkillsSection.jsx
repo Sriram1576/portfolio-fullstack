@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { Code2, Brain, Server, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import skillsData from '../data/skills';
@@ -13,10 +12,10 @@ const SkillsSection = ({ skills = skillsData }) => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.skills-head-anim', 
-        { opacity: 0, y: 30 },
+      gsap.fromTo('.editorial-skill-header', 
+        { opacity: 0, y: 20 },
         { 
-          opacity: 1, y: 0, stagger: 0.1, duration: 1, ease: 'power3.out',
+          opacity: 1, y: 0, stagger: 0.2, duration: 1.5, ease: 'power2.out',
           scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
         }
       );
@@ -24,11 +23,11 @@ const SkillsSection = ({ skills = skillsData }) => {
       itemsRef.current.forEach((item, i) => {
         if (!item) return;
         gsap.fromTo(item,
-          { opacity: 0, scale: 0.9, y: 40 },
+          { opacity: 0, y: 30, filter: 'blur(5px)' },
           {
-            opacity: 1, scale: 1, y: 0,
-            duration: 0.6,
-            ease: 'back.out(1.2)',
+            opacity: 1, y: 0, filter: 'blur(0px)',
+            duration: 1,
+            ease: 'power2.out',
             scrollTrigger: {
               trigger: item,
               start: 'top 90%'
@@ -40,50 +39,55 @@ const SkillsSection = ({ skills = skillsData }) => {
     return () => ctx.revert();
   }, []);
 
-  const iconForCategory = (category) => {
-    if (category === 'Frontend') return <Code2 size={24} className="text-tech-accent" />;
-    if (category === 'Backend' || category === 'Database') return <Server size={24} className="text-tech-accent" />;
-    if (category === 'Tools') return <Sparkles size={24} className="text-tech-accent" />;
-    return <Brain size={24} className="text-tech-accent" />;
-  };
-
   return (
-    <section id="skills" className="relative z-10 py-32 px-4 max-w-7xl mx-auto" ref={sectionRef}>
-      <div className="mb-16">
-        <h2 className="skills-head-anim text-sm font-bold tracking-widest text-tech-accent uppercase mb-4">Capabilities</h2>
-        <p className="skills-head-anim text-4xl md:text-6xl font-bold tracking-tighter text-white">Skills shaped for<br/>modern product teams.</p>
+    <section id="skills" className="relative z-10 py-32 px-6 md:px-12 lg:px-24 max-w-[1400px] mx-auto" ref={sectionRef}>
+      <div className="mb-20">
+        <p className="editorial-skill-header text-tech-secondary font-medium tracking-[0.2em] uppercase text-sm mb-6 flex items-center gap-4">
+          <span className="w-12 h-[1px] bg-tech-accent"></span>
+          Expertise
+        </p>
+        <h2 className="editorial-skill-header text-4xl md:text-6xl font-serif font-medium text-tech-primary tracking-tight">
+          Capabilities & <br/>
+          <span className="italic text-tech-secondary">technical focus.</span>
+        </h2>
       </div>
 
-      <div className="bento-grid-dense">
-        {orderedSkills.map((skill, idx) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {orderedSkills.map((skill, idx) => {
+          const isPrimary = idx === 0;
+          return (
           <article 
             key={skill.id || skill.name} 
-            className="glass-panel p-6 flex flex-col justify-between hover-target group"
+            className={`liquid-glass p-10 flex flex-col justify-between group ${isPrimary ? 'md:col-span-2 lg:col-span-2 min-h-[300px]' : 'col-span-1 min-h-[300px]'}`}
             ref={(el) => (itemsRef.current[idx] = el)}
           >
-            <div className="flex justify-between items-start mb-8">
-              <div className="p-3 bg-tech-surface rounded-2xl group-hover:bg-white/10 transition-colors">
-                {iconForCategory(skill.category)}
-              </div>
-              <span className="text-xs font-medium px-3 py-1 rounded-full bg-tech-surface text-gray-400 border border-tech-border">
+            <div className="flex justify-between items-start mb-12">
+              <span className="text-xs font-semibold tracking-widest px-4 py-2 rounded-full bg-tech-primary text-tech-surface uppercase transition-colors">
                 {skill.category}
+              </span>
+              <span className="text-3xl font-serif italic text-tech-primary/20 group-hover:text-tech-accent transition-colors duration-500">
+                {String(idx + 1).padStart(2, '0')}
               </span>
             </div>
             
             <div>
-              <h3 className="text-xl font-bold text-white mb-2">{skill.name}</h3>
-              <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden mb-3">
+              <h3 className={`${isPrimary ? 'text-4xl' : 'text-3xl'} font-serif font-medium text-tech-primary mb-6 group-hover:translate-x-2 transition-transform duration-500`}>
+                {skill.name}
+              </h3>
+              
+              <div className="h-[1px] w-full bg-tech-border mb-6 relative overflow-hidden">
                 <div 
-                  className="h-full bg-gradient-to-r from-tech-accent/80 to-tech-accent/40 rounded-full"
+                  className="absolute top-0 left-0 h-full bg-tech-accent"
                   style={{ width: `${skill.proficiency}%` }}
                 />
               </div>
-              <p className="text-sm text-gray-400">
-                {skill.proficiency}% proficiency · {skill.yearsOfExperience} years
+              
+              <p className="text-tech-secondary text-sm font-medium tracking-wide uppercase">
+                {skill.proficiency}% proficiency <span className="mx-2 opacity-50">|</span> {skill.yearsOfExperience} years
               </p>
             </div>
           </article>
-        ))}
+        )})}
       </div>
     </section>
   );

@@ -12,24 +12,22 @@ const ExperienceSection = ({ experiences = experienceData }) => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate section headers
-      gsap.fromTo('.exp-head-anim', 
-        { opacity: 0, y: 30 },
+      gsap.fromTo('.editorial-exp-header', 
+        { opacity: 0, y: 20 },
         { 
-          opacity: 1, y: 0, stagger: 0.1, duration: 1, ease: 'power3.out',
+          opacity: 1, y: 0, stagger: 0.2, duration: 1.5, ease: 'power2.out',
           scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }
         }
       );
 
-      // Stagger items one by one
       itemsRef.current.forEach((item, i) => {
         if (!item) return;
         gsap.fromTo(item,
-          { opacity: 0, x: -50 },
+          { opacity: 0, x: -20 },
           {
             opacity: 1, x: 0,
-            duration: 0.8,
-            ease: 'back.out(1.2)',
+            duration: 1,
+            ease: 'power2.out',
             scrollTrigger: {
               trigger: item,
               start: 'top 85%'
@@ -38,35 +36,51 @@ const ExperienceSection = ({ experiences = experienceData }) => {
         );
       });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="experience" className="relative z-10 py-32 px-4 max-w-7xl mx-auto" ref={sectionRef}>
-      <div className="mb-16 max-w-2xl">
-        <h2 className="exp-head-anim text-sm font-bold tracking-widest text-tech-accent uppercase mb-4">Experience</h2>
-        <p className="exp-head-anim text-4xl md:text-6xl font-bold tracking-tighter text-white">Growth through real-world projects.</p>
+    <section id="experience" className="relative z-10 py-32 px-6 md:px-12 lg:px-24 max-w-[1400px] mx-auto bg-tech-base" ref={sectionRef}>
+      <div className="mb-24 flex flex-col md:flex-row md:justify-between md:items-end gap-8">
+        <div>
+          <p className="editorial-exp-header text-tech-secondary font-medium tracking-[0.2em] uppercase text-sm mb-6 flex items-center gap-4">
+            <span className="w-12 h-[1px] bg-tech-accent"></span>
+            Career
+          </p>
+          <h2 className="editorial-exp-header text-4xl md:text-6xl font-serif font-medium text-tech-primary tracking-tight">
+            Professional <br/>
+            <span className="italic text-tech-secondary">milestones.</span>
+          </h2>
+        </div>
       </div>
 
-      <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[19px] before:w-[2px] before:bg-gradient-to-b before:from-tech-accent/80 before:to-transparent pl-12">
+      <div className="space-y-12">
         {orderedExperiences.map((exp, idx) => (
           <article 
             key={exp.id || exp.title} 
-            className="glass-panel p-8 relative group hover-target"
+            className="group grid grid-cols-1 md:grid-cols-12 gap-8 items-start py-8 border-b border-tech-border hover:border-tech-primary transition-colors duration-500"
             ref={(el) => (itemsRef.current[idx] = el)}
           >
-            <div className="absolute left-[-48px] top-8 w-10 h-10 rounded-full bg-black border-2 border-tech-accent flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)] group-hover:scale-110 transition-transform">
-              <div className="w-3 h-3 bg-tech-accent rounded-full" />
+            {/* Timeline & Company */}
+            <div className="md:col-span-3">
+              <p className="text-tech-secondary font-medium tracking-widest text-xs uppercase mb-2">2023 — Present</p>
+              <h4 className="text-xl font-serif italic text-tech-primary">{exp.company}</h4>
             </div>
-            
-            <h3 className="text-2xl font-bold text-white mb-1">{exp.title}</h3>
-            <h4 className="text-tech-accent font-medium mb-4">{exp.company}</h4>
-            <p className="text-gray-400 mb-6">{exp.description}</p>
-            
-            <div className="flex flex-wrap gap-2">
+
+            {/* Role & Description */}
+            <div className="md:col-span-6">
+              <h3 className="text-2xl md:text-3xl font-medium text-tech-primary mb-6 group-hover:text-tech-accent transition-colors duration-300">
+                {exp.title}
+              </h3>
+              <p className="text-tech-secondary leading-relaxed font-light text-lg">
+                {exp.description}
+              </p>
+            </div>
+
+            {/* Tech Stack */}
+            <div className="md:col-span-3 flex flex-wrap gap-2 md:justify-end">
               {(exp.technologies || []).map((tag) => (
-                <span key={tag} className="px-3 py-1 text-xs font-medium rounded-full bg-tech-surface border border-tech-border text-gray-300">
+                <span key={tag} className="px-3 py-1 text-[11px] font-semibold tracking-wider rounded-full border border-tech-border text-tech-secondary uppercase group-hover:border-tech-primary/30 transition-colors">
                   {tag}
                 </span>
               ))}

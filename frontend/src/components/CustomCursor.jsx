@@ -2,30 +2,31 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 export default function CustomCursor() {
-  const cursorDot = useRef(null);
-  const cursorRing = useRef(null);
+  const dotRef = useRef(null);
+  const circleRef = useRef(null);
 
   useEffect(() => {
-    const dot = cursorDot.current;
-    const ring = cursorRing.current;
+    // Only initialize on devices with a fine pointer (non-touch)
+    if (window.matchMedia('(pointer: coarse)').matches) return;
 
-    if (!dot || !ring) return;
+    const dot = dotRef.current;
+    const circle = circleRef.current;
+    
+    if (!dot || !circle) return;
 
-    // Set initial centers
     gsap.set(dot, { xPercent: -50, yPercent: -50 });
-    gsap.set(ring, { xPercent: -50, yPercent: -50 });
+    gsap.set(circle, { xPercent: -50, yPercent: -50 });
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
-    let isHovering = false;
+    let circleX = mouseX;
+    let circleY = mouseY;
 
     const onMouseMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-
-      // The dot follows the mouse instantly (or with a tiny duration for smoothness)
+      
+      // Move dot immediately
       gsap.to(dot, {
         x: mouseX,
         y: mouseY,
@@ -35,116 +36,89 @@ export default function CustomCursor() {
     };
 
     const tick = () => {
-      // Lerp for smooth trailing effect on the ring
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
+      // Lagging trailing effect
+      circleX += (mouseX - circleX) * 0.15;
+      circleY += (mouseY - circleY) * 0.15;
       
-      gsap.set(ring, {
-        x: ringX,
-        y: ringY,
+      gsap.set(circle, {
+        x: circleX,
+        y: circleY,
       });
     };
 
-    // Use GSAP's ticker for performant continuous updates
     gsap.ticker.add(tick);
 
-    const onMouseOver = (e) => {
-      // Elements that should trigger the hover effect
-      const target = e.target.closest('.hover-target, a, button, input, textarea, [role="button"]');
+    // Add hover effects for interactive elements
+    const handleMouseOver = (e) => {
+      const target = e.target.closest('a, button, input, textarea, [role="button"], .hover-scale, .hover-lift');
       if (target) {
-        isHovering = true;
-        gsap.to(dot, { scale: 0, duration: 0.3, ease: 'power2.out' });
-        gsap.to(ring, { 
-          scale: 1.5, 
-          backgroundColor: 'rgba(168, 85, 247, 0.1)', 
-          borderColor: 'rgba(168, 85, 247, 0.8)',
-          duration: 0.3, 
-          ease: 'power2.out' 
+        gsap.to(circle, {
+          scale: 1.5,
+          opacity: 0.5,
+          duration: 0.3,
+          backgroundColor: 'rgba(255, 107, 53, 0.2)', // Accent color glow (#FF6B35)
+          borderColor: 'transparent'
+        });
+        gsap.to(dot, {
+          scale: 0,
+          duration: 0.3
         });
       }
     };
 
-    const onMouseOut = (e) => {
-      const target = e.target.closest('.hover-target, a, button, input, textarea, [role="button"]');
+    const handleMouseOut = (e) => {
+      const target = e.target.closest('a, button, input, textarea, [role="button"], .hover-scale, .hover-lift');
       if (target) {
-        isHovering = false;
-        gsap.to(dot, { scale: 1, duration: 0.3, ease: 'power2.out' });
-        gsap.to(ring, { 
-          scale: 1, 
+        gsap.to(circle, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.3,
           backgroundColor: 'transparent',
-          borderColor: 'rgba(6, 182, 212, 0.5)',
-          duration: 0.3, 
-          ease: 'power2.out' 
+          borderColor: 'rgba(255, 107, 53, 0.5)'
+        });
+        gsap.to(dot, {
+          scale: 1,
+          duration: 0.3
         });
       }
     };
 
     const onMouseLeave = () => {
-      gsap.to([dot, ring], { opacity: 0, duration: 0.3 });
+      gsap.to([dot, circle], { opacity: 0, duration: 0.3 });
     };
 
     const onMouseEnter = () => {
-      gsap.to([dot, ring], { opacity: 1, duration: 0.3 });
+      gsap.to([dot, circle], { opacity: 1, duration: 0.3 });
     };
 
-    // Attach global event listeners
     window.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseover', onMouseOver);
-    document.addEventListener('mouseout', onMouseOut);
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOut);
     document.addEventListener('mouseleave', onMouseLeave);
     document.addEventListener('mouseenter', onMouseEnter);
 
-    // Hide default cursor across the document
-    document.body.style.cursor = 'none';
-
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseover', onMouseOver);
-      document.removeEventListener('mouseout', onMouseOut);
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOut);
       document.removeEventListener('mouseleave', onMouseLeave);
       document.removeEventListener('mouseenter', onMouseEnter);
       gsap.ticker.remove(tick);
-      
-      // Restore default cursor on cleanup
-      document.body.style.cursor = 'auto';
     };
   }, []);
 
-  const styles = {
-    dot: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '8px',
-      height: '8px',
-      backgroundColor: '#06b6d4',
-      borderRadius: '50%',
-      pointerEvents: 'none',
-      zIndex: 9999,
-      mixBlendMode: 'difference',
-      willChange: 'transform',
-    },
-    ring: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '40px',
-      height: '40px',
-      border: '1px solid rgba(6, 182, 212, 0.5)',
-      borderRadius: '50%',
-      pointerEvents: 'none',
-      zIndex: 9998,
-      boxSizing: 'border-box',
-      mixBlendMode: 'difference',
-      transition: 'background-color 0.3s, border-color 0.3s',
-      willChange: 'transform',
-    }
-  };
-
   return (
     <>
-      <div ref={cursorRing} style={styles.ring} className="custom-cursor-ring" />
-      <div ref={cursorDot} style={styles.dot} className="custom-cursor-dot" />
+      <div
+        ref={dotRef}
+        className="fixed top-0 left-0 w-2 h-2 bg-[#FF6B35] rounded-full pointer-events-none z-[10005] shadow-[0_0_10px_#FF6B35] hidden md:block"
+        style={{ willChange: 'transform' }}
+      />
+      <div
+        ref={circleRef}
+        className="fixed top-0 left-0 w-10 h-10 border border-[#FF6B35]/50 rounded-full pointer-events-none z-[10004] transition-colors hidden md:block box-border"
+        style={{ willChange: 'transform' }}
+      />
     </>
   );
 }
