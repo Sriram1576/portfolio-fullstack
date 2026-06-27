@@ -9,7 +9,7 @@ const projects = [
       'Achieved 78% directional accuracy on Nifty 50 back-tests',
       'Engineered 20+ technical indicator features including RSI, MACD, and Bollinger Bands',
     ],
-    github: 'https://github.com/Sriram1576/Stock-Trend-Predictor',
+    github: 'https://github.com/Sriram1576/Stock-Market-Trend-Predictor',
     orderIndex: 1,
     imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800',
   },
