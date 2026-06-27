@@ -36,7 +36,7 @@ const ProfileIDCard = () => {
 
   return (
     <div 
-      className="fixed bottom-8 right-8 z-50 pointer-events-none hidden md:block"
+      className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 pointer-events-none block scale-90 md:scale-100 origin-bottom-right"
       style={{ perspective: '1000px' }}
     >
       <a 

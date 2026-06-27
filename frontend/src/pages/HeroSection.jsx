@@ -148,7 +148,7 @@ const HeroSection = () => {
         </div>
 
         {/* Right Image/Content Container */}
-        <div className="lg:col-span-5 relative hidden md:block" style={{ perspective: '1000px' }}>
+        <div className="lg:col-span-5 relative mt-16 lg:mt-0 block" style={{ perspective: '1000px' }}>
           {/* Formatted like the Project Cards: Liquid glass, background image, overlaid text */}
           <div ref={cardRef} className="hero-image-card relative w-full aspect-[3/4] liquid-glass p-8 flex flex-col justify-end overflow-hidden group" style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}>
             
