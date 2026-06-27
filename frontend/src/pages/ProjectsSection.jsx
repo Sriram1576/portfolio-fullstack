@@ -154,7 +154,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
                       ) : (
                         <span className="text-tech-text/50 text-sm font-medium">Case study</span>
                       )}
-                      <a href="#" className="text-tech-text/70 hover:text-tech-text transition-colors">
+                      <a href="#!" className="text-tech-text/70 hover:text-tech-text transition-colors">
                         <ExternalLink size={20} />
                       </a>
                     </div>
