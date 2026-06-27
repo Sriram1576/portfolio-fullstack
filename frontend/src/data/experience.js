@@ -26,7 +26,7 @@ const experience = [
     description: 'Completed intensive full-stack training covering MongoDB, Express.js, React, and Node.js to build scalable web applications.',
     technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
     period: '2026',
-    type: 'Training',
+    type: 'Internship',
     orderIndex: 1,
   },
   {
