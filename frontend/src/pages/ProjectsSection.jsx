@@ -107,7 +107,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
             // Logic to determine bento grid spanning sizes
             // Every 1st item spans 2 cols, every 4th item spans 2 cols, etc.
             const isLarge = idx === 0 || idx === 3 || idx === 4;
-            const cardClasses = `group relative overflow-hidden glass-panel p-8 flex flex-col justify-between ${isLarge ? 'md:col-span-2' : 'col-span-1'}`;
+            const cardClasses = `group relative overflow-hidden glass-panel p-8 flex flex-col justify-between cursor-pointer ${isLarge ? 'md:col-span-2' : 'col-span-1'}`;
 
             return (
               <article 
@@ -116,6 +116,7 @@ const ProjectsSection = ({ projects = projectsData }) => {
                 ref={(el) => (cardsRef.current[idx] = el)}
                 onMouseMove={(e) => handleMouseMove(e, idx)}
                 onMouseLeave={() => handleMouseLeave(idx)}
+                onClick={() => project.github ? window.open(project.github, '_blank', 'noopener,noreferrer') : null}
               >
                 <div 
                   className="absolute inset-0 z-0 opacity-10 overflow-hidden mix-blend-screen pointer-events-none rounded-3xl will-change-transform"
@@ -148,13 +149,13 @@ const ProjectsSection = ({ projects = projectsData }) => {
                     <small className="text-tech-secondary font-mono text-xs uppercase tracking-wider bg-tech-secondary/10 px-3 py-1 rounded-full">{project.category}</small>
                     <div className="flex gap-3">
                       {project.github ? (
-                        <a href={project.github} target="_blank" rel="noreferrer" className="text-tech-text/70 hover:text-tech-text transition-colors">
+                        <a href={project.github} target="_blank" rel="noreferrer" className="text-tech-text/70 hover:text-tech-text transition-colors" onClick={(e) => e.stopPropagation()}>
                           <Github size={20} />
                         </a>
                       ) : (
                         <span className="text-tech-text/50 text-sm font-medium">Case study</span>
                       )}
-                      <a href="#!" className="text-tech-text/70 hover:text-tech-text transition-colors">
+                      <a href={project.github || "#!"} target="_blank" rel="noreferrer" className="text-tech-text/70 hover:text-tech-text transition-colors" onClick={(e) => e.stopPropagation()}>
                         <ExternalLink size={20} />
                       </a>
                     </div>
