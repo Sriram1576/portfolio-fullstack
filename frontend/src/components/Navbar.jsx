@@ -44,7 +44,7 @@ const Navbar = () => {
               </a>
             </MagneticButton>
             <MagneticButton>
-              <a href="https://linkedin.com/in/sriram1576" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/60 flex items-center justify-center text-tech-text/70 hover:text-tech-text hover:bg-tech-secondary/5 transition-colors hover-target micro-press">
+              <a href="https://www.linkedin.com/in/subham-sadangi-8b619527a" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/60 flex items-center justify-center text-tech-text/70 hover:text-tech-text hover:bg-tech-secondary/5 transition-colors hover-target micro-press">
                 <Linkedin size={18} />
               </a>
             </MagneticButton>

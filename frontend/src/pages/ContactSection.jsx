@@ -123,7 +123,7 @@ const ContactSection = () => {
             <a href="https://github.com/Sriram1576" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
               <Github size={20} />
             </a>
-            <a href="https://linkedin.com/in/sriram1576" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
+            <a href="https://www.linkedin.com/in/subham-sadangi-8b619527a" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
               <Linkedin size={20} />
             </a>
             <a href="https://www.instagram.com/sriram_1576?utm_source=qr" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
