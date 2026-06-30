@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin } from 'lucide-react';
+import { Github, Linkedin, Instagram } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 
 const Navbar = () => {
@@ -37,15 +37,20 @@ const Navbar = () => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2 border-l border-white/20 pl-6 ml-2">
             <MagneticButton>
               <a href="https://github.com/Sriram1576" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/60 flex items-center justify-center text-tech-text/70 hover:text-tech-text hover:bg-tech-secondary/5 transition-colors hover-target micro-press">
                 <Github size={18} />
               </a>
             </MagneticButton>
             <MagneticButton>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/60 flex items-center justify-center text-tech-text/70 hover:text-tech-text hover:bg-tech-secondary/5 transition-colors hover-target micro-press">
+              <a href="https://linkedin.com/in/sriram1576" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/60 flex items-center justify-center text-tech-text/70 hover:text-tech-text hover:bg-tech-secondary/5 transition-colors hover-target micro-press">
                 <Linkedin size={18} />
+              </a>
+            </MagneticButton>
+            <MagneticButton>
+              <a href="https://www.instagram.com/sriram_1576?utm_source=qr" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/60 flex items-center justify-center text-tech-text/70 hover:text-tech-text hover:bg-tech-secondary/5 transition-colors hover-target micro-press">
+                <Instagram size={18} />
               </a>
             </MagneticButton>
           </div>

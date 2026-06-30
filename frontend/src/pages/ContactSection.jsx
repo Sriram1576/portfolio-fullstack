@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mail, MapPin, ArrowRight, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, MapPin, ArrowRight, Github, Linkedin, Instagram } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MagneticButton from '../components/MagneticButton';
@@ -120,14 +120,14 @@ const ContactSection = () => {
           </div>
 
           <div className="mt-10 flex gap-3">
-            <a href="#!" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
+            <a href="https://github.com/Sriram1576" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
               <Github size={20} />
             </a>
-            <a href="#!" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
+            <a href="https://linkedin.com/in/sriram1576" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
               <Linkedin size={20} />
             </a>
-            <a href="#!" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
-              <Twitter size={20} />
+            <a href="https://www.instagram.com/sriram_1576?utm_source=qr" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/40 border border-tech-border/50 text-tech-text/70 hover:text-tech-text hover:border-tech-accent hover:bg-tech-secondary/10 transition-all hover-target micro-spring">
+              <Instagram size={20} />
             </a>
           </div>
         </div>
