@@ -1,0 +1,33 @@
+name: Daily Activity Sync
+
+on:
+  schedule:
+    # Adjust cron schedule per repository according to the staggered plan
+    - cron: '45 4,16 * * *'
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions UI for testing
+
+permissions:
+  contents: write # Required for git-auto-commit-action to push changes back to the repository
+
+jobs:
+  activity-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update automated activity log
+        run: |
+          mkdir -p .system_generated
+          echo "Automated activity sync: $(date -u +'%Y-%m-%d %H:%M:%S UTC') | Trigger: ${{ github.event_name }}" >> .system_generated/activity_log.txt
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(ci): automated daily maintenance and activity sync"
+          commit_user_name: "${{ github.actor }}"
+          commit_user_email: "${{ github.actor }}@users.noreply.github.com"
+          commit_author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          file_pattern: ".system_generated/activity_log.txt"
